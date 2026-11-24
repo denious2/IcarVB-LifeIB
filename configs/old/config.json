@@ -1,0 +1,76 @@
+{
+  "_AI_DIRECTOR_MANUAL": "Проект LifeIB (Жизнь прекрасна). Нарративный клип (Концлагерь / Анти-Фашизм). Горизонтальный формат 16:9. Стиль: масляная живопись крупными мазками (impasto). Эволюция цвета: сепия -> синий -> монохром -> цвет.",
+  "project": {
+    "name": "LifeIB",
+    "totalDuration": 325.968,
+    "resolution": {
+      "width": 1920,
+      "height": 1080
+    },
+    "audioFile": "media/LifeIB.mp3"
+  },
+  "testMode": {
+    "enabled": false,
+    "start": 23,
+    "duration": 25
+  },
+  "render": {
+    "_options_quality": [
+      "draft",
+      "standard",
+      "high"
+    ],
+    "quality": "draft",
+    "hideDebugLogs": true,
+    "fps": 30
+  },
+  "media": {
+    "audioFile": "media/LifeIB.mp3",
+    "subtitlesFile": "media/Subtitles.srt",
+    "imagesFolder": "media/Scenes"
+  },
+  "effects": {
+    "imageDuration": 4.3,
+    "safeMargin": 0.3,
+    "lightingStyle": "dynamic_lamp",
+    "colorGrade": "midnight_blue",
+    "noiseStyle": "none",
+    "flashes": {
+      "multiplier": 1.5,
+      "type": "vignette",
+      "dynamics": "sharp",
+      "color": "#000000",
+      "intensity": 0.3,
+      "blendMode": "multiply"
+    }
+  },
+  "audioAnalysis": {
+    "accents": {
+      "threshold": 0.8,
+      "cooldownMs": 250,
+      "targetMin": 15,
+      "targetMax": 50
+    },
+    "beats": {
+      "minBpm": 60,
+      "maxBpm": 180,
+      "targetMinBeats": 30
+    },
+    "bass": {
+      "lowpassHz": 120
+    },
+    "drums": {
+      "highpassHz": 30,
+      "smoothWindow": 2
+    },
+    "melody": {
+      "highpassHz": 500,
+      "lowpassHz": 6000,
+      "smoothWindow": 5
+    },
+    "vocal": {
+      "highpassHz": 300,
+      "lowpassHz": 3000
+    }
+  }
+}

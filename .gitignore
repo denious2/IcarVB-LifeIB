@@ -1,0 +1,25 @@
+# В репозиторий попадает ТОЛЬКО код, конфиги, агентские файлы и документация.
+# Всё остальное (медиа, стемы, сгенерированные композиции, зависимости) — локально.
+/*
+!/.gitignore
+!/.dsh/
+!/package.json
+!/package-lock.json
+!/VERSION.txt
+!/PROJECT_BRIEF.md
+!/AGENTS.md
+!/AGENTS_old.md
+!/README.md
+!/core/
+!/configs/
+!/tools/
+!/tuning.html
+
+# Служебное внутри разрешённых папок
+node_modules/
+core/utils.rar
+
+# Мусор, который может появиться где угодно
+**/.DS_Store
+**/Thumbs.db
+**/*.rar

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>LifeIB</title>
+    <link rel="stylesheet" href="compositions/reactors.css">
+    <style>
+        body { margin: 0; background: #000; overflow: hidden; }
+        
+        /* Корневая композиция HyperFrames (строго первый элемент в body) */
+        #root { position: absolute; width: 1920px; height: 1080px; overflow: hidden; transform-origin: center center; }
+        
+        /* Внутренний контейнер для сложения трансформаций (Катарсис поверх барабанов на #root) */
+        #universe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform-origin: center center; will-change: transform, filter; }
+        
+        .composition-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        
+        .fullscreen-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0;
+        }
+        
+        #shadow-crush-overlay { z-index: 9950; background: #000000; mix-blend-mode: multiply; }
+        #screen-flash-overlay { z-index: 9960; background: #000000; mix-blend-mode: normal; }
+        #host-subs { text-align: center; }
+
+/* --- LIBRARY KEYFRAMES --- */
+        @keyframes none { transform: none; }
+        @keyframes parallax_soft_1 { 0% { transform: scale(1.06) translate(0%, 0%); } 100% { transform: scale(1.06) translate(-1.4%, 0.9%); } }
+        @keyframes parallax_soft_2 { 0% { transform: scale(1.08) translate(0%, 0%); } 100% { transform: scale(1.08) translate(1.2%, -1.1%); } }
+        @keyframes parallax_soft_3 { 0% { transform: scale(1.1) translate(0%, 0%); } 100% { transform: scale(1.1) translate(0.8%, 1.3%); } }
+        @keyframes plank_letter_jitter { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 20% { transform: translate(-0.5px, 0.4px) rotate(-0.15deg); } 45% { transform: translate(0.6px, -0.3px) rotate(0.12deg); } 70% { transform: translate(-0.3px, -0.5px) rotate(-0.08deg); } 85% { transform: translate(0.4px, 0.3px) rotate(0.1deg); } }
+        @keyframes swingingLamp { 0% { transform: rotate(-1.2deg) translateX(-0.6%); } 50% { transform: rotate(1.2deg) translateX(0.6%); } 100% { transform: rotate(-1.2deg) translateX(-0.6%); } }
+        @keyframes stop_motion_jitter { 0%, 100% { transform: translate(0,0) rotate(0deg); } 25% { transform: translate(-2px, 1px) rotate(-0.5deg); } 50% { transform: translate(1px, -2px) rotate(0.5deg); } 75% { transform: translate(2px, 2px) rotate(-0.2deg); } }
+        @keyframes ribbon_flow { 0%, 100% { transform: scale(1.1) translateY(0) skewX(0); } 50% { transform: scale(1.15) translateY(-2%) skewX(-2deg); } }
+        @keyframes textSway { 0% { transform: rotate(-3deg) translateY(10px); } 100% { transform: rotate(3deg) translateY(-10px); } }
+        @keyframes subtle_zoom { 0% { transform: scale(1.1) translate(0, 0) rotate(0deg); } 100% { transform: scale(1.25) translate(-1%, 1%) rotate(1deg); } }
+        @keyframes organic_drift { 0% { transform: scale(1.15) translate(-1%, -1%) rotate(-1deg); } 50% { transform: scale(1.2) translate(1%, 1%) rotate(1deg); } 100% { transform: scale(1.15) translate(-0.5%, 0.5%) rotate(0deg); } }
+        @keyframes slow_pan_left { 0% { transform: scale(1.15) translateX(0) rotate(0deg); } 100% { transform: scale(1.15) translateX(-3%) rotate(-1deg); } }
+        @keyframes slow_pan_right { 0% { transform: scale(1.15) translateX(0) rotate(0deg); } 100% { transform: scale(1.15) translateX(3%) rotate(1deg); } }
+        @keyframes slide_run_right_heavy { 0% { transform: scale(1.0) translateX(0) rotate(0deg); } 100% { transform: scale(1.3) translateX(80%) rotate(4deg); } }
+        @keyframes micro_jitter { 0%, 100% { transform: scale(1.1) translate(0, 0) rotate(0deg); } 25% { transform: scale(1.1) translate(-2px, 2px) rotate(-0.5deg); } 50% { transform: scale(1.1) translate(2px, -2px) rotate(0.5deg); } 75% { transform: scale(1.1) translate(-1px, -2px) rotate(-0.2deg); } }
+        @keyframes fast_dolly_in { 0% { transform: scale(1.1) translate(0, 0) rotate(0deg); } 30% { transform: scale(1.25) translate(-1%, 2%) rotate(-1deg); } 100% { transform: scale(1.45) translate(2%, -1%) rotate(1.5deg); } }
+        @keyframes aggressive_shake { 0%, 100% { transform: scale(1.15) translate(0, 0) rotate(0deg); } 20% { transform: scale(1.18) translate(-4px, 3px) rotate(-2deg); } 40% { transform: scale(1.15) translate(3px, -4px) rotate(2deg); } 60% { transform: scale(1.2) translate(-3px, -2px) rotate(-1deg); } 80% { transform: scale(1.17) translate(4px, 4px) rotate(1.5deg); } }
+        @keyframes glitch_pan_left { 0% { transform: scale(1.2) translateX(0) rotate(0deg); } 50% { transform: scale(1.25) translateX(-5%) rotate(-2deg); } 100% { transform: scale(1.2) translateX(-2%) rotate(0deg); } }
+        @keyframes glitch_pan_right { 0% { transform: scale(1.2) translateX(0) rotate(0deg); } 50% { transform: scale(1.25) translateX(5%) rotate(2deg); } 100% { transform: scale(1.2) translateX(2%) rotate(0deg); } }
+        @keyframes rapid_pulse { 0%, 100% { transform: scale(1.15) rotate(0deg); } 25% { transform: scale(1.3) rotate(1.5deg); } 50% { transform: scale(1.15) rotate(-1.5deg); } 75% { transform: scale(1.25) rotate(1deg); } }
+        @keyframes cinematic_zoom_in_shake { 0% { transform: scale(1.1) translate(0,0) rotate(0deg); } 20% { transform: scale(1.15) translate(-3px, 3px) rotate(-1.5deg); } 40% { transform: scale(1.2) translate(3px, -2px) rotate(1.5deg); } 60% { transform: scale(1.25) translate(-2px, 3px) rotate(-0.5deg); } 80% { transform: scale(1.3) translate(3px, -3px) rotate(-1deg); } 100% { transform: scale(1.35) translate(0,0) rotate(0deg); } }
+        @keyframes downfall { 0% { transform: scale(1.0) translateY(0vh); } 100% { transform: scale(1.2) translateY(40vh); } }
+        @keyframes downfall_with_spin { 0% { transform: scale(0.9) translateY(-20vh) rotate(-5deg); } 100% { transform: scale(1.1) translateY(20vh) rotate(10deg); } }
+        @keyframes rise_jitter_up { 0% { transform: translateY(40vh) scale(1.0); opacity: 0; } 10% { transform: translateY(30vh) scale(1.02); opacity: 1; } 15% { transform: translateY(22vh) translate(2px, -3px); } 20% { transform: translateY(16vh) translate(-3px, 2px); } 25% { transform: translateY(10vh) translate(2px, 3px); } 30% { transform: translateY(5vh) translate(-2px, -2px); } 35% { transform: translateY(2vh) translate(3px, -1px); } 40% { transform: translateY(0vh) translate(-1px, 2px); } 50% { transform: translateY(-5vh) translate(2px, -2px); } 60% { transform: translateY(-12vh) translate(-2px, 3px); } 75% { transform: translateY(-22vh) translate(1px, -2px); } 90% { transform: translateY(-32vh) translate(-1px, 1px); } 100% { transform: translateY(-40vh) scale(1.05); opacity: 0; } }
+        @keyframes slow_zoom_jitter { 0% { transform: scale(1.0) translate(0px, 0px); } 20% { transform: scale(1.03) translate(-2px, 2px); } 40% { transform: scale(1.06) translate(2px, -3px); } 60% { transform: scale(1.09) translate(-3px, 1px); } 80% { transform: scale(1.12) translate(2px, 3px); } 100% { transform: scale(1.15) translate(-1px, -2px); } }
+        @keyframes swing_center { 0% { transform: scale(1.3) rotate(-12deg); } 50% { transform: scale(1.3) rotate(12deg); } 100% { transform: scale(1.3) rotate(10deg); } }
+        @keyframes swing_top { 0% { transform-origin: top center; transform: scale(1.3) rotate(15deg); } 50% { transform-origin: top center; transform: scale(1.3) rotate(-15deg); } 100% { transform-origin: top center; transform: scale(1.3) rotate(15deg); } }
+        @keyframes rotate_sweep_right { 0% { transform: scale(1.3) rotate(-15deg); } 100% { transform: scale(1.3) rotate(15deg); } }
+        @keyframes rotate_sweep_left { 0% { transform: scale(1.3) rotate(15deg); } 100% { transform: scale(1.3) rotate(-15deg); } }
+        @keyframes rotate_right { 0% { transform: scale(1.3) rotate(-35deg); } 100% { transform: scale(1.1) rotate(35deg); } }
+        @keyframes chaotic_micro_zoom { 0% { transform: scale(1.0); } 15% { transform: scale(1.25); } 30% { transform: scale(1.05); } 45% { transform: scale(1.18); } 60% { transform: scale(1.08); } 75% { transform: scale(1.14); } 90% { transform: scale(1.09); } 100% { transform: scale(1.1); } }
+        @keyframes dutch_dolly { 0% { transform: scale(1.1) rotate(-3deg) translate(0, 0); } 100% { transform: scale(1.35) rotate(2deg) translate(-2%, 2%); } }
+        @keyframes float_around { 0%, 100% { transform: scale(1.15) translate(0,0) rotate(0deg); } 33% { transform: scale(1.15) translate(2%, -2%) rotate(1deg); } 66% { transform: scale(1.15) translate(-2%, 2%) rotate(-1deg); } }
+        @keyframes heavy_impact { 0% { transform: scale(1.0) translate(0,0); } 5% { transform: scale(1.3) translate(-10px, 10px) rotate(-3deg); } 15% { transform: scale(1.1) translate(5px, -5px) rotate(2deg); } 30% { transform: scale(1.2) translate(-3px, 3px) rotate(-1deg); } 50% { transform: scale(1.1) translate(0,0) rotate(0deg); } 100% { transform: scale(1.15); } }
+        @keyframes parallax_jitterfly_up { 0% { transform: translateY(100vh); opacity: 0; } 5% { transform: translateY(0); opacity: 1; } 10% { transform: translate(-3px, 4px); } 15% { transform: translate(4px, -2px); } 20% { transform: translate(-2px, -3px); } 25% { transform: translate(3px, 2px); } 30% { transform: translate(-4px, 1px); } 35% { transform: translate(2px, -4px); } 40% { transform: translate(-1px, 3px); } 45% { transform: translate(3px, -2px); } 50% { transform: translate(-3px, -3px); } 55% { transform: translate(2px, 4px); } 60% { transform: translate(-2px, -1px); } 65% { transform: translate(4px, 2px); } 70% { transform: translate(0, 0); } 80% { transform: translateY(0) scaleY(1); opacity: 1; filter: blur(0px); } 100% { transform: translateY(-120vh) scaleY(1.4); opacity: 0; filter: blur(2px); } }
+        @keyframes slash_anime_flyby_glitch { 0%, 20% { opacity: 0; transform: translateY(100vh) skewX(0deg) scaleY(1); filter: drop-shadow(0 0 0 transparent) blur(0px); } 21% { opacity: 1; transform: translateY(40vh) skewX(5deg) scaleY(1.1); filter: drop-shadow(-6px 0px 1px #ff0055) drop-shadow(6px 0px 1px #00ffcc) blur(1px); } 23% { transform: translateY(25vh) translate(-8px, 5px) skewX(-15deg) scaleY(1.1); filter: drop-shadow(8px -2px 0px #ff0000) drop-shadow(-8px 2px 0px #0000ff) blur(2px); } 25% { transform: translateY(10vh) translate(10px, -6px) skewX(12deg) scaleY(1.2); filter: drop-shadow(-10px 3px 2px #ff0055) drop-shadow(10px -3px 2px #00ffcc) blur(1px); } 27% { transform: translateY(-5vh) translate(-12px, 8px) skewX(-18deg) scaleY(1.3); filter: drop-shadow(12px -1px 0px #ff0000) drop-shadow(-12px 1px 0px #0000ff) blur(3px); } 29% { transform: translateY(-20vh) translate(9px, -4px) skewX(8deg) scaleY(1.4); filter: drop-shadow(-7px 4px 1px #ff0055) drop-shadow(7px -4px 1px #00ffcc) blur(1px); } 33% { transform: translateY(-150vh) skewX(0deg) scaleY(3); opacity: 0; filter: drop-shadow(0 0 0 transparent) blur(5px); } 100% { opacity: 0; transform: translateY(-150vh); filter: none; } }
+        @keyframes parallax_snapshake_up { 0% { transform: translateY(80vh) scale(0.5); opacity: 0; } 3% { transform: translateY(0) scale(1); opacity: 1; } 8% { transform: translate(8px, -5px) rotate(2deg); } 13% { transform: translate(-6px, 7px) rotate(-1deg); } 18% { transform: translate(7px, 4px) rotate(1deg); } 23% { transform: translate(-5px, -6px); } 28% { transform: translate(6px, -3px); } 33% { transform: translate(-4px, 5px); } 38% { transform: translate(5px, -4px); } 43% { transform: translate(-3px, -5px); } 48% { transform: translate(4px, 3px); } 53% { transform: translate(-5px, -2px); } 58% { transform: translate(2px, 4px); } 65% { transform: translate(0, 0) rotate(0deg); } 78% { transform: translateY(0); opacity: 1; filter: drop-shadow(0 0 0px rgba(255,255,255,0)); } 100% { transform: translateY(-130vh); opacity: 0; filter: drop-shadow(0 -25px 8px rgba(255,255,255,0.4)); } }
+        @keyframes parallax_glitch_up { 0% { transform: translateY(120vh); opacity: 0; } 4% { transform: translateY(0); opacity: 1; } 10% { transform: translate(-10px, 2px); } 15% { transform: translate(8px, -8px); } 20% { transform: translate(-5px, 6px); } 25% { transform: translate(7px, -4px); } 30% { transform: translate(-8px, -6px); } 35% { transform: translate(6px, 8px); } 40% { transform: translate(-4px, -3px); } 45% { transform: translate(5px, 5px); } 50% { transform: translate(-6px, -2px); } 55% { transform: translate(3px, -7px); } 60% { transform: translate(-2px, 4px); } 70% { transform: translate(0, 0); } 82% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-140vh) skewX(-15deg); opacity: 0; filter: blur(3px); } }
+        @keyframes slash_anime_flyby { 0%, 20% { opacity: 0; transform: translateY(100vh); } 21% { opacity: 1; transform: translateY(40vh); } 23% { transform: translateY(25vh) translate(-8px, 5px) scaleY(1.1); } 25% { transform: translateY(10vh) translate(10px, -6px) scaleY(1.2); } 27% { transform: translateY(-5vh) translate(-12px, 8px) scaleY(1.3); } 29% { transform: translateY(-20vh) translate(9px, -4px) scaleY(1.4); } 33% { transform: translateY(-150vh) scaleY(3); opacity: 0; } 100% { opacity: 0; transform: translateY(-150vh); } }
+        @keyframes chaotic_expanding_jitter { 0% { transform: scale(1.0) translate(0, 0) rotate(0deg); } 10% { transform: scale(1.08) translate(-8px, 6px) rotate(-1.5deg); } 20% { transform: scale(1.15) translate(10px, -9px) rotate(2deg); } 30% { transform: scale(1.2) translate(-12px, -6px) rotate(-2.5deg); } 40% { transform: scale(1.26) translate(9px, 11px) rotate(1.5deg); } 50% { transform: scale(1.31) translate(-14px, 8px) rotate(-3deg); } 60% { transform: scale(1.36) translate(11px, -12px) rotate(2deg); } 70% { transform: scale(1.4) translate(-10px, -10px) rotate(-1.5deg); } 80% { transform: scale(1.44) translate(13px, 7px) rotate(2.5deg); } 90% { transform: scale(1.48) translate(-7px, 12px) rotate(-2deg); } 100% { transform: scale(1.5) translate(0, 0) rotate(0deg); } }
+        @keyframes electric_glow_jitter { 0%, 100% { text-shadow: 0 0 10px rgba(188, 182, 203,0.7); box-shadow: -4px -3px 14px rgba(188, 182, 203,0.4), 8px 10px 25px rgba(188, 182, 203,0.25), -6px 8px 15px rgba(188, 182, 203,0.15); } 33% { text-shadow: 0 0 12px rgba(188, 182, 203,0.9), -2px 1px 0px rgba(188, 182, 203,0.3); box-shadow: 3px -6px 18px rgba(188, 182, 203,0.5), -8px 12px 12px rgba(188, 182, 203,0.2), 4px 5px 25px rgba(188, 182, 203,0.4); } 66% { text-shadow: 0 0 5px rgba(188, 182, 203,0.4); box-shadow: -8px 2px 10px rgba(188, 182, 203,0.2), 6px -4px 30px rgba(188, 182, 203,0.5), -2px -10px 15px rgba(188, 182, 203,0.1); } 85% { text-shadow: 0 0 15px rgba(188, 182, 203,1), 2px -2px 0px rgba(188, 182, 203,0.5); box-shadow: 6px 8px 12px rgba(188, 182, 203,0.6), -12px 6px 20px rgba(188, 182, 203,0.3), 10px -8px 25px rgba(188, 182, 203,0.5); } }
+        @keyframes glitch_scroll_bg { 0% { background-position: 0 0, 0 0, 0 0; } 25% { background-position: 0 -30px, 0 15px, 0 50px; } 50% { background-position: 0 40px, 0 -50px, 0 -10px; } 75% { background-position: 0 -15px, 0 25px, 0 40px; } 100% { background-position: 0 0, 0 0, 0 0; } }
+        @keyframes rotate_shake { 0% { transform: scale(1.15) rotate(0deg) translate(0, 0); } 20% { transform: scale(1.15) rotate(4deg) translate(-3px, 2px); } 40% { transform: scale(1.15) rotate(-1deg) translate(3px, -2px); } 60% { transform: scale(1.15) rotate(3deg) translate(-1px, -3px); } 80% { transform: scale(1.15) rotate(-2deg) translate(2px, 2px); } 100% { transform: scale(1.15) rotate(5deg) translate(1px, -1px); } }
+        @keyframes glitch_scroll_mask { 0% { -webkit-mask-position: 0 0, 0 0, 0 0; mask-position: 0 0, 0 0, 0 0; } 25% { -webkit-mask-position: 0 -40px, 0 20px, 0 60px; mask-position: 0 -40px, 0 20px, 0 60px; } 50% { -webkit-mask-position: 0 30px, 0 -40px, 0 -20px; mask-position: 0 30px, 0 -40px, 0 -20px; } 75% { -webkit-mask-position: 0 -25px, 0 35px, 0 50px; mask-position: 0 -25px, 0 35px, 0 50px; } 100% { -webkit-mask-position: 0 0, 0 0, 0 0; mask-position: 0 0, 0 0, 0 0; } }
+        @keyframes logo_slam_end { 0% { transform: scale(1.3) translate(0px, -10px) rotate(0deg); opacity: 0; filter: blur(6px); } 8% { transform: scale(1.9) translate(0, 0) rotate(-4deg); opacity: 1; filter: blur(0px); } 12% { transform: scale(1.4) translate(4px, -3px) rotate(8deg); } 16% { transform: scale(1.6) translate(-15px, 14px) rotate(-10deg); } 20% { transform: scale(2.4) translate(13px, -12px) rotate(9deg); } 24% { transform: scale(2.2) translate(-13px, 13px) rotate(-7deg); } 28% { transform: scale(1.8) translate(12px, -11px) rotate(5deg); } 34% { transform: scale(1.4) translate(-1px, 1px) rotate(-3deg); } 40% { transform: scale(1.8) translate(0, 0) rotate(0deg); } 80% { transform: scale(1.4) translate(0, 0) rotate(0deg); opacity: 1; } 100% { transform: scale(1.3) translate(0, 0) rotate(0deg); opacity: 1; } }
+        @keyframes hard_cut { 0%, 100% { opacity: var(--base-opacity, 1); } }
+        @keyframes fade_in_base { 0% { opacity: 0; } 10% { opacity: var(--base-opacity, 1); } 100% { opacity: var(--base-opacity, 1); } }
+        @keyframes soft_fade { 0% { opacity: 0; filter: blur(2px); } 10% { opacity: var(--base-opacity, 1); filter: blur(0px); } 100% { opacity: var(--base-opacity, 1); filter: blur(0px); } }
+        @keyframes slide_in_from_left { 0% { transform: translateX(-100%); } 100% { transform: translateX(0); } }
+        @keyframes glitch_snap { 0% { opacity: 0; filter: contrast(200%) invert(100%); transform: translateX(-10px); } 5% { opacity: 1; filter: contrast(150%) invert(0%); transform: translateX(5px); } 10% { filter: contrast(100%); transform: translateX(0); } 100% { opacity: var(--base-opacity, 1); } }
+        @keyframes scribble_flash { 0% { opacity: 1; filter: contrast(300%) grayscale(100%); } 20% { opacity: 0.8; filter: invert(100%); } 40% { opacity: 1; filter: contrast(100%); } 100% { opacity: 0; } }
+        @keyframes ink_reveal { 0% { opacity: 0; clip-path: circle(0% at 50% 50%); filter: url(#ink-bleed) blur(5px); } 15% { opacity: var(--base-opacity, 1); clip-path: circle(150% at 50% 50%); filter: url(#ink-bleed) blur(0px); } 100% { opacity: var(--base-opacity, 1); clip-path: circle(150% at 50% 50%); filter: url(#ink-bleed); } }
+        @keyframes ink_bleed_in { 0% { opacity: 0; filter: blur(10px) contrast(3); } 20% { opacity: var(--base-opacity, 1); filter: blur(0px) contrast(1); } 100% { opacity: var(--base-opacity, 1); filter: blur(0px) contrast(1); } }
+        @keyframes sketch_flash { 0%, 100% { opacity: 0; } 10%, 90% { opacity: var(--base-opacity, 1); } 30%, 70% { opacity: 0.8; } }
+        @keyframes sketch_boil { 0%, 100% { filter: url(#boil); opacity: var(--base-opacity, 1); } }
+        @keyframes textFade { 0% { opacity: 0; transform: scale(0.9); } 15% { opacity: 0.95; transform: scale(1); } 85% { opacity: 0.95; transform: scale(1.02); } 100% { opacity: 0; transform: scale(1.1); } }
+        @keyframes fly_up_out { 0% { opacity: 0; transform: translateY(40px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-20px); } }
+        @keyframes fade_in_out { 0% { opacity: 0; } 10% { opacity: var(--base-opacity, 1); } 90% { opacity: var(--base-opacity, 1); } 100% { opacity: 0; } }
+        @keyframes burn_out { 0% { opacity: 0; filter: brightness(1); } 10% { opacity: var(--base-opacity, 1); filter: brightness(1); } 85% { opacity: var(--base-opacity, 1); filter: brightness(1) contrast(1); } 100% { opacity: 0; filter: brightness(3) contrast(200%); } }
+        @keyframes glitch_in_out { 0% { opacity: 0; filter: invert(100%); } 5% { opacity: 1; filter: invert(0%); } 95% { opacity: 1; filter: invert(0%); transform: translateX(0); } 100% { opacity: 0; filter: invert(100%); transform: translateX(-10px); } }
+        @keyframes reveal_from_black { 0% { opacity: 0; } 100% { opacity: var(--base-opacity, 1); } }
+        @keyframes blend_in_out { 0% { opacity: 0; } 8% { opacity: 1; } 88% { opacity: 1; } 100% { opacity: 0; } }
+        @keyframes pop_in_out { 0% { opacity: 1; } 92% { opacity: 1; } 100% { opacity: 0; } }
+        @keyframes drift_in { 0% { opacity: 0; transform: translateY(24px); } 60% { opacity: var(--base-opacity, 1); } 100% { opacity: var(--base-opacity, 1); transform: translateY(0); } }
+        @keyframes drift_out { 0% { opacity: var(--base-opacity, 1); transform: translateY(0); } 100% { opacity: 0; transform: translateY(-18px); } }
+
+@keyframes masterAccentShake {
+  0% { transform: translate(0px, 0px) scale(1); }
+  57.9414% { transform: translate(0px, 0px) scale(1); }
+  57.9445% { transform: scale(1); }
+  57.9526% { transform: scale(1.022); }
+  57.9782% { transform: scale(1.008); }
+  58.0120% { transform: scale(1); }
+  62.6052% { transform: translate(0px, 0px) scale(1); }
+  62.6083% { transform: scale(1); }
+  62.6164% { transform: scale(1.022); }
+  62.6420% { transform: scale(1.008); }
+  62.6758% { transform: scale(1); }
+  66.2212% { transform: translate(0px, 0px) scale(1); }
+  66.2242% { transform: scale(1); }
+  66.2323% { transform: scale(1.022); }
+  66.2580% { transform: scale(1.008); }
+  66.2917% { transform: scale(1); }
+  76.8699% { transform: translate(0px, 0px) scale(1); }
+  76.8730% { transform: scale(1); }
+  76.8811% { transform: scale(1.022); }
+  76.9067% { transform: scale(1.008); }
+  76.9405% { transform: scale(1); }
+  83.7469% { transform: translate(0px, 0px) scale(1); }
+  83.7500% { transform: scale(1); }
+  83.7581% { transform: scale(1.022); }
+  83.7837% { transform: scale(1.008); }
+  83.8175% { transform: scale(1); }
+  84.9445% { transform: translate(0px, 0px) scale(1); }
+  84.9475% { transform: scale(1); }
+  84.9556% { transform: scale(1.022); }
+  84.9813% { transform: scale(1.008); }
+  85.0150% { transform: scale(1); }
+  85.1150% { transform: translate(0px, 0px) scale(1); }
+  85.1181% { transform: scale(1); }
+  85.1262% { transform: scale(1.022); }
+  85.1518% { transform: scale(1.008); }
+  85.1856% { transform: scale(1); }
+  85.6344% { transform: translate(0px, 0px) scale(1); }
+  85.6374% { transform: scale(1); }
+  85.6455% { transform: scale(1.022); }
+  85.6712% { transform: scale(1.008); }
+  85.7049% { transform: scale(1); }
+  86.2929% { transform: translate(0px, 0px) scale(1); }
+  86.2960% { transform: scale(1); }
+  86.3041% { transform: scale(1.022); }
+  86.3298% { transform: scale(1.008); }
+  86.3635% { transform: scale(1); }
+  87.3294% { transform: translate(0px, 0px) scale(1); }
+  87.3325% { transform: scale(1); }
+  87.3406% { transform: scale(1.022); }
+  87.3663% { transform: scale(1.008); }
+  87.4000% { transform: scale(1); }
+  87.4709% { transform: translate(0px, 0px) scale(1); }
+  87.4739% { transform: scale(1); }
+  87.4820% { transform: scale(1.022); }
+  87.5077% { transform: scale(1.008); }
+  87.5414% { transform: scale(1); }
+  87.9902% { transform: translate(0px, 0px) scale(1); }
+  87.9933% { transform: scale(1); }
+  88.0013% { transform: scale(1.022); }
+  88.0270% { transform: scale(1.008); }
+  88.0607% { transform: scale(1); }
+  88.4104% { transform: translate(0px, 0px) scale(1); }
+  88.4135% { transform: scale(1); }
+  88.4216% { transform: scale(1.022); }
+  88.4472% { transform: scale(1.008); }
+  88.4810% { transform: scale(1); }
+  88.4874% { transform: translate(0px, 0px) scale(1); }
+  88.4905% { transform: scale(1); }
+  88.4986% { transform: scale(1.022); }
+  88.5242% { transform: scale(1.008); }
+  88.5580% { transform: scale(1); }
+  88.6132% { transform: translate(0px, 0px) scale(1); }
+  88.6163% { transform: scale(1); }
+  88.6244% { transform: scale(1.022); }
+  88.6500% { transform: scale(1.008); }
+  88.6837% { transform: scale(1); }
+  89.6776% { transform: translate(0px, 0px) scale(1); }
+  89.6807% { transform: scale(1); }
+  89.6888% { transform: scale(1.022); }
+  89.7144% { transform: scale(1.008); }
+  89.7482% { transform: scale(1); }
+  89.8267% { transform: translate(0px, 0px) scale(1); }
+  89.8298% { transform: scale(1); }
+  89.8379% { transform: scale(1.022); }
+  89.8635% { transform: scale(1.008); }
+  89.8972% { transform: scale(1); }
+  90.8110% { transform: translate(0px, 0px) scale(1); }
+  90.8141% { transform: scale(1); }
+  90.8222% { transform: scale(1.022); }
+  90.8479% { transform: scale(1.008); }
+  90.8816% { transform: scale(1); }
+  91.0077% { transform: translate(0px, 0px) scale(1); }
+  91.0107% { transform: scale(1); }
+  91.0188% { transform: scale(1.022); }
+  91.0445% { transform: scale(1.008); }
+  91.0782% { transform: scale(1); }
+  91.8920% { transform: translate(0px, 0px) scale(1); }
+  91.8951% { transform: scale(1); }
+  91.9032% { transform: scale(1.022); }
+  91.9288% { transform: scale(1.008); }
+  91.9626% { transform: scale(1); }
+  92.0531% { transform: translate(0px, 0px) scale(1); }
+  92.0561% { transform: scale(1); }
+  92.0642% { transform: scale(1.022); }
+  92.0899% { transform: scale(1.008); }
+  92.1236% { transform: scale(1); }
+  92.1856% { transform: translate(0px, 0px) scale(1); }
+  92.1887% { transform: scale(1); }
+  92.1967% { transform: scale(1.022); }
+  92.2224% { transform: scale(1.008); }
+  92.2561% { transform: scale(1); }
+  94.0411% { transform: translate(0px, 0px) scale(1); }
+  94.0442% { transform: scale(1); }
+  94.0523% { transform: scale(1.022); }
+  94.0779% { transform: scale(1.008); }
+  94.1117% { transform: scale(1); }
+  94.5383% { transform: translate(0px, 0px) scale(1); }
+  94.5414% { transform: scale(1); }
+  94.5495% { transform: scale(1.022); }
+  94.5752% { transform: scale(1.008); }
+  94.6089% { transform: scale(1); }
+  95.4258% { transform: translate(0px, 0px) scale(1); }
+  95.4288% { transform: scale(1); }
+  95.4369% { transform: scale(1.022); }
+  95.4626% { transform: scale(1.008); }
+  95.4963% { transform: scale(1); }
+  95.7163% { transform: translate(0px, 0px) scale(1); }
+  95.7193% { transform: scale(1); }
+  95.7274% { transform: scale(1.022); }
+  95.7531% { transform: scale(1.008); }
+  95.7868% { transform: scale(1); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+.global-shake-active { animation: masterAccentShake 326s linear forwards; }
+@keyframes masterSubsCounter {
+  0% { transform: translate(0px, 0px) scale(1); }
+  57.9414% { transform: translate(0px, 0px) scale(1); }
+  57.9445% { transform: scale(1.0000); }
+  57.9526% { transform: scale(0.9846); }
+  57.9782% { transform: scale(0.9944); }
+  58.0120% { transform: scale(1.0000); }
+  62.6052% { transform: translate(0px, 0px) scale(1); }
+  62.6083% { transform: scale(1.0000); }
+  62.6164% { transform: scale(0.9846); }
+  62.6420% { transform: scale(0.9944); }
+  62.6758% { transform: scale(1.0000); }
+  66.2212% { transform: translate(0px, 0px) scale(1); }
+  66.2242% { transform: scale(1.0000); }
+  66.2323% { transform: scale(0.9846); }
+  66.2580% { transform: scale(0.9944); }
+  66.2917% { transform: scale(1.0000); }
+  76.8699% { transform: translate(0px, 0px) scale(1); }
+  76.8730% { transform: scale(1.0000); }
+  76.8811% { transform: scale(0.9846); }
+  76.9067% { transform: scale(0.9944); }
+  76.9405% { transform: scale(1.0000); }
+  83.7469% { transform: translate(0px, 0px) scale(1); }
+  83.7500% { transform: scale(1.0000); }
+  83.7581% { transform: scale(0.9846); }
+  83.7837% { transform: scale(0.9944); }
+  83.8175% { transform: scale(1.0000); }
+  84.9445% { transform: translate(0px, 0px) scale(1); }
+  84.9475% { transform: scale(1.0000); }
+  84.9556% { transform: scale(0.9846); }
+  84.9813% { transform: scale(0.9944); }
+  85.0150% { transform: scale(1.0000); }
+  85.1150% { transform: translate(0px, 0px) scale(1); }
+  85.1181% { transform: scale(1.0000); }
+  85.1262% { transform: scale(0.9846); }
+  85.1518% { transform: scale(0.9944); }
+  85.1856% { transform: scale(1.0000); }
+  85.6344% { transform: translate(0px, 0px) scale(1); }
+  85.6374% { transform: scale(1.0000); }
+  85.6455% { transform: scale(0.9846); }
+  85.6712% { transform: scale(0.9944); }
+  85.7049% { transform: scale(1.0000); }
+  86.2929% { transform: translate(0px, 0px) scale(1); }
+  86.2960% { transform: scale(1.0000); }
+  86.3041% { transform: scale(0.9846); }
+  86.3298% { transform: scale(0.9944); }
+  86.3635% { transform: scale(1.0000); }
+  87.3294% { transform: translate(0px, 0px) scale(1); }
+  87.3325% { transform: scale(1.0000); }
+  87.3406% { transform: scale(0.9846); }
+  87.3663% { transform: scale(0.9944); }
+  87.4000% { transform: scale(1.0000); }
+  87.4709% { transform: translate(0px, 0px) scale(1); }
+  87.4739% { transform: scale(1.0000); }
+  87.4820% { transform: scale(0.9846); }
+  87.5077% { transform: scale(0.9944); }
+  87.5414% { transform: scale(1.0000); }
+  87.9902% { transform: translate(0px, 0px) scale(1); }
+  87.9933% { transform: scale(1.0000); }
+  88.0013% { transform: scale(0.9846); }
+  88.0270% { transform: scale(0.9944); }
+  88.0607% { transform: scale(1.0000); }
+  88.4104% { transform: translate(0px, 0px) scale(1); }
+  88.4135% { transform: scale(1.0000); }
+  88.4216% { transform: scale(0.9846); }
+  88.4472% { transform: scale(0.9944); }
+  88.4810% { transform: scale(1.0000); }
+  88.4874% { transform: translate(0px, 0px) scale(1); }
+  88.4905% { transform: scale(1.0000); }
+  88.4986% { transform: scale(0.9846); }
+  88.5242% { transform: scale(0.9944); }
+  88.5580% { transform: scale(1.0000); }
+  88.6132% { transform: translate(0px, 0px) scale(1); }
+  88.6163% { transform: scale(1.0000); }
+  88.6244% { transform: scale(0.9846); }
+  88.6500% { transform: scale(0.9944); }
+  88.6837% { transform: scale(1.0000); }
+  89.6776% { transform: translate(0px, 0px) scale(1); }
+  89.6807% { transform: scale(1.0000); }
+  89.6888% { transform: scale(0.9846); }
+  89.7144% { transform: scale(0.9944); }
+  89.7482% { transform: scale(1.0000); }
+  89.8267% { transform: translate(0px, 0px) scale(1); }
+  89.8298% { transform: scale(1.0000); }
+  89.8379% { transform: scale(0.9846); }
+  89.8635% { transform: scale(0.9944); }
+  89.8972% { transform: scale(1.0000); }
+  90.8110% { transform: translate(0px, 0px) scale(1); }
+  90.8141% { transform: scale(1.0000); }
+  90.8222% { transform: scale(0.9846); }
+  90.8479% { transform: scale(0.9944); }
+  90.8816% { transform: scale(1.0000); }
+  91.0077% { transform: translate(0px, 0px) scale(1); }
+  91.0107% { transform: scale(1.0000); }
+  91.0188% { transform: scale(0.9846); }
+  91.0445% { transform: scale(0.9944); }
+  91.0782% { transform: scale(1.0000); }
+  91.8920% { transform: translate(0px, 0px) scale(1); }
+  91.8951% { transform: scale(1.0000); }
+  91.9032% { transform: scale(0.9846); }
+  91.9288% { transform: scale(0.9944); }
+  91.9626% { transform: scale(1.0000); }
+  92.0531% { transform: translate(0px, 0px) scale(1); }
+  92.0561% { transform: scale(1.0000); }
+  92.0642% { transform: scale(0.9846); }
+  92.0899% { transform: scale(0.9944); }
+  92.1236% { transform: scale(1.0000); }
+  92.1856% { transform: translate(0px, 0px) scale(1); }
+  92.1887% { transform: scale(1.0000); }
+  92.1967% { transform: scale(0.9846); }
+  92.2224% { transform: scale(0.9944); }
+  92.2561% { transform: scale(1.0000); }
+  94.0411% { transform: translate(0px, 0px) scale(1); }
+  94.0442% { transform: scale(1.0000); }
+  94.0523% { transform: scale(0.9846); }
+  94.0779% { transform: scale(0.9944); }
+  94.1117% { transform: scale(1.0000); }
+  94.5383% { transform: translate(0px, 0px) scale(1); }
+  94.5414% { transform: scale(1.0000); }
+  94.5495% { transform: scale(0.9846); }
+  94.5752% { transform: scale(0.9944); }
+  94.6089% { transform: scale(1.0000); }
+  95.4258% { transform: translate(0px, 0px) scale(1); }
+  95.4288% { transform: scale(1.0000); }
+  95.4369% { transform: scale(0.9846); }
+  95.4626% { transform: scale(0.9944); }
+  95.4963% { transform: scale(1.0000); }
+  95.7163% { transform: translate(0px, 0px) scale(1); }
+  95.7193% { transform: scale(1.0000); }
+  95.7274% { transform: scale(0.9846); }
+  95.7531% { transform: scale(0.9944); }
+  95.7868% { transform: scale(1.0000); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+.global-subs-counter { animation: masterSubsCounter 326s linear forwards; }
+
+    </style>
+</head>
+<body>
+    <div id="root" data-composition-id="root_scene" data-width="1920" data-height="1080" data-duration="326">
+        <div id="universe">
+            <div id="host-audio" data-composition-id="audio_scene" class="composition-layer clip" data-in="0" data-out="326" data-start="0" data-duration="326" data-track-index="-1" data-composition-src="compositions/audio_scene.html"></div>
+            
+            <div id="host-visuals-bg" data-composition-id="visuals_bg_scene" class="composition-layer clip global-shake-active" style="mix-blend-mode: normal; z-index: 10;" data-in="0" data-out="326" data-start="0" data-duration="326" data-track-index="1" data-composition-src="compositions/visuals_bg_scene.html"></div>
+            <div id="host-images" data-composition-id="images_scene" class="composition-layer clip global-shake-active" style="mix-blend-mode: normal; z-index: 20;" data-in="0" data-out="326" data-start="0" data-duration="326" data-track-index="2" data-composition-src="compositions/images_scene.html"></div>
+            <div id="host-visuals-fg" data-composition-id="visuals_fg_scene" class="composition-layer clip global-shake-active" style="mix-blend-mode: normal; z-index: 30;" data-in="0" data-out="326" data-start="0" data-duration="326" data-track-index="3" data-composition-src="compositions/visuals_fg_scene.html"></div>
+            
+            <div id="host-dust" data-composition-id="dust_scene" class="composition-layer clip global-shake-active" style="mix-blend-mode: normal; z-index: 90;" data-in="0" data-out="326" data-start="0" data-duration="326" data-track-index="4" data-composition-src="compositions/dust_scene.html"></div>
+            
+            <div id="host-beats" data-composition-id="beats_scene" class="composition-layer clip" style="mix-blend-mode: multiply; z-index: 95; pointer-events: none;" data-in="0" data-out="326" data-start="0" data-duration="326" data-track-index="45" data-composition-src="compositions/beats_scene.html"></div>
+            
+            <div id="shadow-crush-overlay" class="fullscreen-overlay clip" data-in="0" data-out="326" data-start="0" data-duration="326"></div>
+            <div id="screen-flash-overlay" class="fullscreen-overlay clip" data-in="0" data-out="326" data-start="0" data-duration="326"></div>
+            
+            
+            <div id="host-subs" data-composition-id="subs_scene" class="composition-layer clip global-subs-counter" style="z-index: 10000;" data-in="0" data-out="326" data-start="0" data-duration="326" data-track-index="5" data-composition-src="compositions/subs_scene.html"></div>
+            <div id="host-color-grade" class="composition-layer clip" style="z-index: 9998; pointer-events: none; display: none;" data-in="0" data-out="326" data-start="0" data-duration="326" data-track-index="6"></div>
+
+            
+            <!-- ТЕСТ: 001_Intro -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="0.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="0.000" data-duration="3.500">001_Intro</div>
+            <!-- ТЕСТ: 002_Male_verse_1 -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="23.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="23.000" data-duration="3.500">002_Male_verse_1</div>
+            <!-- ТЕСТ: 003_Drop_1 -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="50.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="50.000" data-duration="3.500">003_Drop_1</div>
+            <!-- ТЕСТ: 004_Male_Verse_2 -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="54.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="54.000" data-duration="3.500">004_Male_Verse_2</div>
+            <!-- ТЕСТ: 005_Female_Verse_1 -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="87.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="87.000" data-duration="3.500">005_Female_Verse_1</div>
+            <!-- ТЕСТ: 005b_Dream -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="117.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="117.000" data-duration="3.500">005b_Dream</div>
+            <!-- ТЕСТ: 006_Female_Verse_2 -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="133.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="133.000" data-duration="3.500">006_Female_Verse_2</div>
+            <!-- ТЕСТ: 007_Pre-Chorus -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="172.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="172.000" data-duration="3.500">007_Pre-Chorus</div>
+            <!-- ТЕСТ: 008_Chorus -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="202.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="202.000" data-duration="3.500">008_Chorus</div>
+            <!-- ТЕСТ: 009_Female_Verse_3 -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="234.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="234.000" data-duration="3.500">009_Female_Verse_3</div>
+            <!-- ТЕСТ: 010_Female_Verse_4 -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="265.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="265.000" data-duration="3.500">010_Female_Verse_4</div>
+            <!-- ТЕСТ: 011_Male_Verse_3 -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="272.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="272.000" data-duration="3.500">011_Male_Verse_3</div>
+            <!-- ТЕСТ: 012_Outro -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="295.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="295.000" data-duration="3.500">012_Outro</div>
+            <!-- ТЕСТ: 013_Fade_Out -->
+            <div class="clip" style="position: absolute; inset: 0; z-index: 10001; pointer-events: none; border: 6px solid rgba(255, 210, 120, 0.85); box-sizing: border-box;" data-in="0" data-out="3.500" data-start="316.000" data-duration="3.500"></div>
+            <div class="clip" style="position: absolute; left: 2%; top: 3%; z-index: 10002; pointer-events: none; font-family: sans-serif; font-size: 26px; letter-spacing: 1px; color: #ffd479; background: rgba(0, 0, 0, 0.6); padding: 8px 14px; border-radius: 4px;" data-in="0" data-out="3.500" data-start="316.000" data-duration="3.500">013_Fade_Out</div>
+            
+            <!-- 4.6 АКЦЕНТЫ -->
+            <div id="host-accents" data-composition-id="accents_scene" class="composition-layer clip" style="z-index: 9999; pointer-events: none; mix-blend-mode: multiply;" data-in="0" data-out="326" data-start="0" data-duration="326" data-track-index="46" data-composition-src="compositions/accents_scene.html"></div>
+            
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (001_Intro) -->
+            <div id="global-filter-0" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: sepia(0.45) saturate(1.15) contrast(1.18) brightness(0.96); background-color: rgba(122, 72, 24, 0.08); mix-blend-mode: multiply;" data-in="0" data-out="23.000" data-start="0.000" data-duration="23.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (002_Male_verse_1) -->
+            <div id="global-filter-1" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: sepia(0.45) saturate(1.15) contrast(1.18) brightness(0.96); background-color: rgba(122, 72, 24, 0.08); mix-blend-mode: multiply;" data-in="0" data-out="27.000" data-start="23.000" data-duration="27.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (003_Drop_1) -->
+            <div id="global-filter-2" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: saturate(0.78) contrast(1.2) brightness(0.9); background-color: #0e304f; mix-blend-mode: color; opacity: 0.45;" data-in="0" data-out="4.000" data-start="50.000" data-duration="4.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (004_Male_Verse_2) -->
+            <div id="global-filter-3" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: saturate(0.78) contrast(1.2) brightness(0.9); background-color: #0e304f; mix-blend-mode: color; opacity: 0.45;" data-in="0" data-out="33.000" data-start="54.000" data-duration="33.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (005_Female_Verse_1) -->
+            <div id="global-filter-4" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: saturate(0.78) contrast(1.2) brightness(0.9); background-color: #0e304f; mix-blend-mode: color; opacity: 0.45;" data-in="0" data-out="30.000" data-start="87.000" data-duration="30.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (005b_Dream) -->
+            <div id="global-filter-5" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: blur(1.6px) saturate(0.82) brightness(1.1) contrast(0.95);" data-in="0" data-out="16.000" data-start="117.000" data-duration="16.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (006_Female_Verse_2) -->
+            <div id="global-filter-6" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: saturate(0.78) contrast(1.2) brightness(0.9); background-color: #0e304f; mix-blend-mode: color; opacity: 0.45;" data-in="0" data-out="39.000" data-start="133.000" data-duration="39.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (007_Pre-Chorus) -->
+            <div id="global-filter-7" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: saturate(0.78) contrast(1.2) brightness(0.9); background-color: #0e304f; mix-blend-mode: color; opacity: 0.45;" data-in="0" data-out="30.000" data-start="172.000" data-duration="30.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (008_Chorus) -->
+            <div id="global-filter-8" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: contrast(1.32) saturate(1.25) brightness(0.96); background-color: #1b0f14; mix-blend-mode: color; opacity: 0.35;" data-in="0" data-out="32.000" data-start="202.000" data-duration="32.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (009_Female_Verse_3) -->
+            <div id="global-filter-9" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: saturate(0.78) contrast(1.2) brightness(0.9); background-color: #0e304f; mix-blend-mode: color; opacity: 0.45;" data-in="0" data-out="31.000" data-start="234.000" data-duration="31.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (010_Female_Verse_4) -->
+            <div id="global-filter-10" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: grayscale(1) contrast(1.24) brightness(0.88);" data-in="0" data-out="7.000" data-start="265.000" data-duration="7.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (011_Male_Verse_3) -->
+            <div id="global-filter-11" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: grayscale(1) contrast(1.24) brightness(0.88);" data-in="0" data-out="23.000" data-start="272.000" data-duration="23.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (012_Outro) -->
+            <div id="global-filter-12" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: grayscale(1) contrast(1.24) brightness(0.88);" data-in="0" data-out="21.000" data-start="295.000" data-duration="21.000" data-track-index="10"></div>
+
+            <!-- ГЛОБАЛЬНЫЙ ФИЛЬТР (013_Fade_Out) -->
+            <div id="global-filter-13" class="composition-layer clip" style="z-index: 9999; pointer-events: none; backdrop-filter: saturate(1.15) contrast(1.05) brightness(1.02) sepia(0.08); background: linear-gradient(135deg, rgba(255, 196, 87, 0.32) 0%, rgba(120, 40, 60, 0.18) 100%); mix-blend-mode: soft-light;" data-in="0" data-out="10.000" data-start="316.000" data-duration="10.000" data-track-index="10"></div>
+
+        </div>
+    </div>
+    <script>
+        window.__timelines = window.__timelines || {};
+        window.__timelines["root_scene"] = document.querySelector('[data-composition-id="root_scene"]');
+    </script>
+</body>
+</html>

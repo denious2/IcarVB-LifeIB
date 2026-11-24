@@ -1,0 +1,369 @@
+{
+  "_README": "Режиссерский конфиг. Управляет структурой песни, правилами секций, пулами ассетов и стилями.",
+  "layers": {
+    "0_audio": "Аудио трек (Скрытый слой)",
+    "2_main": "Слой 2 (Сцена)",
+    "3_narrative": "Слой 3 (001_Intro)",
+    "4_narrative": "Слой 4 (002_Male_verse_1)",
+    "5_narrative": "Слой 5 (003_Drop_1)",
+    "6_narrative": "Слой 6 (004_Male_Verse_2)",
+    "7_narrative": "Слой 7 (005_Female_Verse_1)",
+    "8_narrative": "Слой 8 (006_Female_Verse_2)",
+    "9_narrative": "Слой 9 (007_Pre-Chorus)",
+    "10_narrative": "Слой 10 (008_Chorus)",
+    "11_narrative": "Слой 11 (009_Female_Verse_3)",
+    "12_narrative": "Слой 12 (010_Female_Verse_4)",
+    "13_narrative": "Слой 13 (011_Male_Verse_3)",
+    "14_narrative": "Слой 14 (012_Outro & 013_Fade_Out)",
+    "50_text": "Субтитры (#host-subs)",
+    "81_atmos_sepia": "Атмосфера: Пленка, пыль и ретро-полосы (Воспоминания)",
+    "82_atmos_blue": "Атмосфера: Проволока и черный пепел (Лагерь)",
+    "83_atmos_mono": "Атмосфера: Серый пепел и полосы (Монохром)",
+    "84_atmos_color": "Атмосфера: Золотые искры (Катарсис)",
+    "99_top": "Глитчи и транзишены (#host-accents)"
+  },
+  "songStructure": [
+    { "time": 0.0, "name": "001_Intro", "type": "intro_sepia" },
+    { "time": 23.0, "name": "002_Male_verse_1", "type": "verse_1" },
+    { "time": 50.0, "name": "003_Drop_1", "type": "drop_1" },
+    { "time": 54.0, "name": "004_Male_Verse_2", "type": "verse_2" },
+    { "time": 87.0, "name": "005_Female_Verse_1", "type": "f_verse_1" },
+    { "time": 133.0, "name": "006_Female_Verse_2", "type": "f_verse_2" },
+    { "time": 172.0, "name": "007_Pre-Chorus", "type": "pre_chorus" },
+    { "time": 202.0, "name": "008_Chorus", "type": "chorus" },
+    { "time": 234.0, "name": "009_Female_Verse_3", "type": "f_verse_3" },
+    { "time": 265.0, "name": "010_Female_Verse_4", "type": "f_verse_4" },
+    { "time": 272.0, "name": "011_Male_Verse_3", "type": "m_verse_3" },
+    { "time": 295.0, "name": "012_Outro", "type": "outro" },
+    { "time": 316.0, "name": "013_Fade_Out", "type": "fade_out" }
+  ],
+  "sectionTypeRules": {
+    "intro_sepia":  { "allowedLayers": [3, 50, 99, 81], "blackout": false, "globalFilter": "vintage_fade", "colorGrade": "sepia_burn" },
+    "verse_1":      { "allowedLayers": [4, 50, 99, 81], "blackout": false, "globalFilter": "vintage_fade", "colorGrade": "sepia_burn" },
+    
+    "drop_1":       { "allowedLayers": [5, 50, 99, 82], "blackout": false, "globalFilter": "none", "colorGrade": "cold_noir" },
+    "verse_2":      { "allowedLayers": [6, 50, 99, 82], "blackout": false, "globalFilter": "none", "colorGrade": "cold_noir" },
+    "f_verse_1":    { "allowedLayers": [7, 50, 99, 82], "blackout": false, "globalFilter": "none", "colorGrade": "cold_noir" },
+    "f_verse_2":    { "allowedLayers": [8, 50, 99, 82], "blackout": false, "globalFilter": "none", "colorGrade": "cold_noir" },
+    "pre_chorus":   { "allowedLayers": [9, 50, 99, 82], "blackout": false, "globalFilter": "none", "colorGrade": "cold_noir" },
+    "chorus":       { "allowedLayers": [10, 50, 99, 82], "blackout": false, "globalFilter": "none", "colorGrade": "cold_noir" },
+    "f_verse_3":    { "allowedLayers": [11, 50, 99, 82], "blackout": false, "globalFilter": "none", "colorGrade": "cold_noir" },
+    
+    "f_verse_4":    { "allowedLayers": [12, 50, 99, 83], "blackout": false, "globalFilter": "none", "colorGrade": "none" },
+    "m_verse_3":    { "allowedLayers": [13, 50, 99, 83], "blackout": false, "globalFilter": "none", "colorGrade": "none" },
+    "outro":        { "allowedLayers": [14, 50, 99, 83], "blackout": false, "globalFilter": "none", "colorGrade": "none" },
+    
+    "fade_out":     { "allowedLayers": [14, 50, 99, 84], "blackout": false, "globalFilter": "none", "colorGrade": "none" }
+  },
+  "behaviorClasses": {
+    "narrative": { "strategy": "sequence", "maxDuration": null },
+    "atmosphere": { "strategy": "dynamic_slots", "maxDuration": 2.0 },
+    "flash": { "strategy": "random_flash", "duration": 0.4 }
+  },
+  "overlays": {
+    "shadowCrush": "shadow_crush_default",
+    "screenFlash": "screen_flash_white"
+  },
+  "directorOverrides": {
+    "files": {
+      "130.png": { "appearance": "slide_in_from_left" },
+      "560.png": { "appearance": "slide_in_from_left" },
+      "660.png": { "appearance": "slide_in_from_left" }
+    }
+  },
+  "subtitlesConfig": {
+    "enabled": true,
+    "defaultStyle": "retro_sepia",
+    "animation": {
+      "entrance": "glitch_snap",
+      "durationIn": 0.1,
+      "exit": "soft_fade",
+      "durationOut": 0.2,
+      "motion": "aggressive_shake"
+    },
+    "overrideBySectionType": {
+      "intro_sepia": { "style": "retro_sepia" },
+      "verse_1":     { "style": "retro_sepia" },
+      "drop_1":      { "style": "retro_camp" },
+      "verse_2":     { "style": "retro_camp" },
+      "f_verse_1":   { "style": "retro_camp" },
+      "f_verse_2":   { "style": "retro_camp" },
+      "pre_chorus":  { "style": "retro_camp" },
+      "chorus":      { "style": "retro_camp" },
+      "f_verse_3":   { "style": "retro_camp" },
+      "f_verse_4":   { "style": "retro_mono" },
+      "m_verse_3":   { "style": "retro_mono" },
+      "outro":       { "style": "retro_mono" },
+      "fade_out":    { "style": "retro_color" }
+    }
+  },
+  "beatsConfig": {
+    "enabled": true,
+    "sourceFile": "beats.json",
+    "decay": 0.15,
+    "multiplier": 1,
+    "type": "solid",
+    "dynamics": "sharp",
+    "color": "#ffffff",
+    "intensity": 0.25
+  },
+  "bass": { "enabled": true, "sourceFile": "bass.json", "decay": 0.3 },
+  "melody": { "enabled": true, "sourceFile": "melody.json", "decay": 0.2 },
+  "vocal": { "enabled": true, "sourceFile": "vocal.json", "decay": 0.2 },
+  "accents": {
+    "enabled": true,
+    "sourceFile": "accents.json",
+    "shakes": {
+      "enabled": true,
+      "duration": 0.25,
+      "pool": ["capcut_shake_v1", "micro_seismic", "impact_zoom"]
+    },
+    "videoGlitches": {
+      "enabled": true,
+      "duration": 0.35,
+      "file": "media/sfx/accents/glitch-vert-12.mp4",
+      "blendMode": "screen",
+      "slices": 8,
+      "sequence": [2, 3, "none", "none", 5],
+      "style": "white_soft_20"
+    }
+  },
+  "audioReactors": {
+    "enabled": true,
+    "nodes": [
+      {
+        "name": "Давление Тьмы (Бас)",
+        "description": "Уплотнение теней на низких частотах.",
+        "target": "#shadow-crush-overlay",
+        "cssProperty": "opacity",
+        "formulaParts": [
+          { "code": "calc(0.2 + var(--bass) * 0.2)", "note": "Снижена база" }
+        ],
+        "transition": "opacity 0.05s ease-out"
+      },
+      {
+        "name": "Нервный Текст (Субтитры)",
+        "description": "Текст слегка вздрагивает на басах.",
+        "target": "#host-subs",
+        "cssProperty": "transform",
+        "formulaParts": [
+          { "code": "skewX(calc(var(--bass) * -1deg))", "note": "Наклон текста" },
+          { "code": "scale(calc(1 + var(--bass) * 0.05))", "note": "Пульсация размера" }
+        ],
+        "transition": "transform 0.05s ease-out"
+      }
+    ]
+  },
+  "assetPools": {
+    "scene_001": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 3,
+      "path": "media/Scenes/001_Intro",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_002": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 4,
+      "path": "media/Scenes/002_Male_verse_1",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_003": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 5,
+      "path": "media/Scenes/003_Drop_1",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_004": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 6,
+      "path": "media/Scenes/004_Male_Verse_2",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_005": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 7,
+      "path": "media/Scenes/005_Female_Verse_1",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_006": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 8,
+      "path": "media/Scenes/006_Female_Verse_2",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_007": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 9,
+      "path": "media/Scenes/007_Pre-Chorus",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_008": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 10,
+      "path": "media/Scenes/008_Chorus",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_009": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 11,
+      "path": "media/Scenes/009_Female_Verse_3",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_010": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 12,
+      "path": "media/Scenes/010_Female_Verse_4",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_011": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 13,
+      "path": "media/Scenes/011_Male_Verse 3",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_012": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 14,
+      "path": "media/Scenes/012_Outro",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_013": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 14,
+      "path": "media/Scenes/013_Fade_Out",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "atmos_sepia_hairs": {
+      "enabled": true,
+      "class": "atmosphere",
+      "layerIndex": 81,
+      "path": "media/sfx/Retro_film_hairs",
+      "blendMode": "multiply",
+      "baseOpacity": 0.3,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "soft_fade"
+    },
+    "atmos_sepia_dust": {
+      "enabled": true,
+      "class": "atmosphere",
+      "layerIndex": 81,
+      "path": "media/sfx/Light-Dust",
+      "blendMode": "screen",
+      "baseOpacity": 0.3,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "soft_fade"
+    },
+    "atmos_sepia_lines": {
+      "enabled": true,
+      "class": "atmosphere",
+      "layerIndex": 81,
+      "path": "media/sfx/vert-lines",
+      "blendMode": "multiply",
+      "baseOpacity": 0.25,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "soft_fade"
+    },
+    "atmos_blue_wire": {
+      "enabled": true,
+      "class": "atmosphere",
+      "layerIndex": 82,
+      "path": "media/sfx/Barbed-Wire",
+      "blendMode": "multiply",
+      "baseOpacity": 0.3,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "soft_fade"
+    },
+    "atmos_blue_ash": {
+      "enabled": true,
+      "class": "atmosphere",
+      "layerIndex": 82,
+      "path": "media/sfx/Black-Ash",
+      "blendMode": "screen",
+      "baseOpacity": 0.3,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "soft_fade"
+    },
+    "atmos_mono_ash": {
+      "enabled": true,
+      "class": "atmosphere",
+      "layerIndex": 83,
+      "path": "media/sfx/Ash",
+      "blendMode": "screen",
+      "baseOpacity": 0.3,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "soft_fade"
+    },
+    "atmos_mono_lines": {
+      "enabled": true,
+      "class": "atmosphere",
+      "layerIndex": 83,
+      "path": "media/sfx/vert-lines",
+      "blendMode": "multiply",
+      "baseOpacity": 0.25,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "soft_fade"
+    },
+    "atmos_color_fireflies": {
+      "enabled": true,
+      "class": "atmosphere",
+      "layerIndex": 84,
+      "path": "media/sfx/Vertical-fireflies",
+      "blendMode": "screen",
+      "baseOpacity": 0.3,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "soft_fade"
+    }
+  }
+}

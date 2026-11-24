@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Настройка плашки субтитров — LifeIB</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+    @font-face {
+        font-family: 'Plank';
+        src: url('media/fonts/gteestiprodisplay_bold.otf') format('opentype');
+        font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+        font-family: 'UniSansHeavy';
+        src: url('media/fonts/Uni Sans Heavy.otf') format('opentype');
+        font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+        font-family: 'OpenSansBold';
+        src: url('media/fonts/OpenSans-Bold.ttf') format('truetype');
+        font-weight: 700; font-style: normal; font-display: swap;
+    }
+
+    :root {
+        --fs: 64px; --ls: 6px; --lh: 1.3;
+        --padx: 0.9em; --padt: 0.3em; --padb: 0.14em;
+        --radius: 0px; --ring: 11px; --shadow: 26px;
+        --plate: #191109; --paper: #e9dfc6; --text: #f3e9d4;
+        --font: 'Plank', 'Oswald', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0a0d10; color: #cfd6dd; font: 13px/1.45 system-ui, -apple-system, Segoe UI, sans-serif; display: flex; min-height: 100vh; }
+
+    .panel { width: 350px; flex: 0 0 350px; padding: 18px 16px 40px; background: #0d1116; border-right: 1px solid #1a2128; overflow-y: auto; max-height: 100vh; }
+    .panel h1 { font-size: 14px; font-weight: 600; margin: 0 0 4px; color: #e6edf3; letter-spacing: .3px; }
+    .panel .sub { font-size: 11.5px; color: #6d7883; margin: 0 0 16px; }
+    .group { border-top: 1px solid #192027; padding: 12px 0 4px; }
+    .group:first-of-type { border-top: 0; }
+    .group h2 { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.2px; color: #5f6b76; margin: 0 0 10px; font-weight: 600; }
+    .row { display: grid; grid-template-columns: 1fr 66px; gap: 8px; align-items: center; margin-bottom: 9px; }
+    .row label { font-size: 12px; color: #9aa5b0; }
+    .row output { font-size: 11.5px; color: #d6dee6; text-align: right; font-variant-numeric: tabular-nums; }
+    input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: #c9a227; height: 16px; }
+    .colors { display: flex; gap: 10px; margin-bottom: 10px; }
+    .colors label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: #8b96a1; }
+    input[type=color] { width: 62px; height: 26px; border: 1px solid #232c35; border-radius: 4px; background: #0d1116; padding: 1px; }
+    .btns { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    button.preset, button.act {
+        border: 1px solid #2a343e; background: #11171d; color: #b6c1cb; border-radius: 5px;
+        padding: 5px 9px; font-size: 11.5px; cursor: pointer;
+    }
+    button.preset:hover, button.act:hover { border-color: #c9a227; color: #ecf2f7; }
+    button.preset.on { border-color: #c9a227; color: #f0d98a; }
+    .check { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; color: #9aa5b0; }
+    .check input { accent-color: #c9a227; }
+    select, input[type=text] { width: 100%; background: #0d1116; color: #cfd6dd; border: 1px solid #222b34; border-radius: 5px; padding: 6px 8px; font: inherit; font-size: 12px; }
+    textarea { width: 100%; height: 170px; background: #070a0d; color: #9fd3a6; border: 1px solid #1e262e; border-radius: 6px; padding: 8px; font: 11px/1.5 ui-monospace, Consolas, monospace; resize: vertical; }
+
+    .stage-wrap { flex: 1; padding: 18px; overflow: auto; }
+    .stage-holder { position: relative; width: 100%; }
+    .stage {
+        position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: top left;
+        display: flex; align-items: center; justify-content: center; overflow: hidden;
+        background:
+            radial-gradient(ellipse at 30% 25%, rgba(120, 96, 60, 0.35), transparent 60%),
+            radial-gradient(ellipse at 70% 80%, rgba(30, 44, 66, 0.55), transparent 65%),
+            linear-gradient(160deg, #1b1712 0%, #0a0c10 55%, #05060a 100%);
+        box-shadow: 0 0 0 1px #1b2128;
+    }
+    .stage::after {
+        content: ""; position: absolute; inset: 0; pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        mix-blend-mode: screen; opacity: 0.06;
+    }
+    .line { position: relative; z-index: 2; width: 92%; text-align: center; }
+
+    .plate {
+        position: relative; isolation: isolate; display: inline-block; text-align: center;
+        font-family: var(--font); font-weight: 700;
+        font-size: var(--fs); letter-spacing: var(--ls); line-height: var(--lh);
+        color: var(--text); padding: var(--padt) var(--padx) var(--padb) var(--padx);
+        margin: 0.45em 0; background: transparent;
+    }
+    .plate.upper { text-transform: uppercase; }
+    .plate::before {
+        content: ''; position: absolute; inset: 0; z-index: -1;
+        background-color: var(--plate);
+        background-image: radial-gradient(ellipse at 22% 30%, rgba(255,255,255,0.06), transparent 62%),
+                          radial-gradient(ellipse at 78% 72%, rgba(255,255,255,0.04), transparent 58%);
+        border-radius: var(--radius);
+        box-shadow: 0 0 0 var(--ring) var(--paper), 0 10px var(--shadow) rgba(0,0,0,0.45);
+        filter: url(#chip);
+    }
+    .plate.nochips::before { filter: none; }
+    .plate .txt { position: relative; }
+    .plate.texchips .txt { filter: url(#chip-text); }
+
+    .hint { font-size: 11.5px; color: #6d7883; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<aside class="panel">
+    <h1>Настройка плашки</h1>
+    <p class="sub">Крутите ползунки, смотрите сцену, внизу — готовый JSON, который надо прислать мне.</p>
+
+    <div class="group">
+        <h2>Шрифт</h2>
+        <select id="font"></select>
+        <p class="hint" id="fontHint"></p>
+    </div>
+
+    <div class="group">
+        <h2>Типографика</h2>
+        <div class="row"><label>Размер шрифта</label><output id="o-fs">64 px</output><input type="range" id="fs" min="40" max="120" step="1" value="64"></div>
+        <div class="row"><label>Трекинг</label><output id="o-ls">6 px</output><input type="range" id="ls" min="0" max="18" step="0.5" value="6"></div>
+        <div class="row"><label>Интерлиньяж</label><output id="o-lh">1.30</output><input type="range" id="lh" min="1" max="1.8" step="0.01" value="1.3"></div>
+        <div class="check"><input type="checkbox" id="upper" checked><label for="upper">БОЛЬШИЕ БУКВЫ (капс)</label></div>
+    </div>
+
+    <div class="group">
+        <h2>Плашка</h2>
+        <div class="row"><label>Отступ слева/справа</label><output id="o-padx">0.90 em</output><input type="range" id="padx" min="0" max="1.6" step="0.02" value="0.9"></div>
+        <div class="row"><label>Отступ сверху</label><output id="o-padt">0.30 em</output><input type="range" id="padt" min="0" max="0.8" step="0.02" value="0.3"></div>
+        <div class="row"><label>Отступ снизу</label><output id="o-padb">0.14 em</output><input type="range" id="padb" min="0" max="0.8" step="0.02" value="0.14"></div>
+        <div class="row"><label>Скругление</label><output id="o-radius">0 px</output><input type="range" id="radius" min="0" max="30" step="1" value="0"></div>
+        <div class="row"><label>Кромка (бумага)</label><output id="o-ring">11 px</output><input type="range" id="ring" min="0" max="30" step="1" value="11"></div>
+        <div class="row"><label>Мягкая тень</label><output id="o-shadow">26 px</output><input type="range" id="shadow" min="0" max="60" step="1" value="26"></div>
+    </div>
+
+    <div class="group">
+        <h2>Износ края</h2>
+        <div class="row"><label>Амплитуда щербин</label><output id="o-wobble">7</output><input type="range" id="wobble" min="0" max="20" step="1" value="7"></div>
+        <div class="row"><label>Крошка (поры)</label><output id="o-chips">36 %</output><input type="range" id="chips" min="0" max="100" step="1" value="36"></div>
+        <div class="row"><label>Крупность щербин</label><output id="o-gfreq">0.030</output><input type="range" id="gfreq" min="0.01" max="0.12" step="0.005" value="0.03"></div>
+        <div class="check"><input type="checkbox" id="chipsText" checked><label for="chipsText">Крошка и на буквах (текст тоже фильтруется)</label></div>
+    </div>
+
+    <div class="group">
+        <h2>Цвет эпохи</h2>
+        <div class="btns">
+            <button class="preset on" data-preset="sepia">Сепия</button>
+            <button class="preset" data-preset="camp">Лагерь</button>
+            <button class="preset" data-preset="mono">Монохром</button>
+            <button class="preset" data-preset="color">Финал</button>
+        </div>
+        <div class="colors">
+            <label>Бумага<input type="color" id="c-paper" value="#e9dfc6"></label>
+            <label>Плашка<input type="color" id="c-plate" value="#191109"></label>
+            <label>Текст<input type="color" id="c-text" value="#f3e9d4"></label>
+        </div>
+    </div>
+
+    <div class="group">
+        <h2>Строка</h2>
+        <select id="sample">
+            <option>он там никогда</option>
+            <option>ты уедешь на самом реальном танке</option>
+            <option>за верёвку над пропастью</option>
+            <option>IHR GEHT JETZT DUSCHEN</option>
+            <option>душа твоя мальчик невинна ещё и чиста</option>
+        </select>
+        <div style="height:8px"></div>
+        <input type="text" id="custom" placeholder="или введите свою строку…">
+    </div>
+
+    <div class="group">
+        <h2>Итог — пришлите мне это</h2>
+        <textarea id="out" readonly spellcheck="false"></textarea>
+        <div class="btns" style="margin-top:8px">
+            <button class="act" id="copy">Скопировать JSON</button>
+        </div>
+        <p class="hint">JSON описывает всё, что я перенесу в <code>library-config.json</code> и <code>director-config.json</code>.</p>
+    </div>
+</aside>
+
+<div class="stage-wrap">
+    <div class="stage-holder" id="holder">
+        <div class="stage" id="stage">
+            <div class="line"><span class="plate upper" id="plate"><span class="txt" id="txt">он там никогда</span></span></div>
+        </div>
+    </div>
+</div>
+
+<svg style="position: absolute; width: 0; height: 0;" xmlns="http://www.w3.org/2000/svg">
+    <filter id="chip" x="-25%" y="-45%" width="150%" height="190%" color-interpolation-filters="sRGB">
+        <feTurbulence id="turbBig" type="fractalNoise" baseFrequency="0.03" numOctaves="3" seed="5" result="big" />
+        <feDisplacementMap id="dispBig" in="SourceGraphic" in2="big" scale="7" xChannelSelector="R" yChannelSelector="G" result="w1" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="41" result="grain" />
+        <feColorMatrix id="grainMat" in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -9 0 0 0 7.128" result="ga" />
+        <feComposite in="w1" in2="ga" operator="in" />
+    </filter>
+
+    <filter id="chip-text" x="-20%" y="-30%" width="140%" height="160%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="41" result="grain" />
+        <feColorMatrix id="grainMatText" in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -9 0 0 0 7.425" result="ga" />
+        <feComposite in="SourceGraphic" in2="ga" operator="in" />
+    </filter>
+</svg>
+
+<script>
+(function () {
+    var PRESETS = {
+        sepia: { paper: '#e9dfc6', plate: '#191109', text: '#f3e9d4' },
+        camp:  { paper: '#dfe3e2', plate: '#0d1218', text: '#e6eef5' },
+        mono:  { paper: '#e6e4dd', plate: '#101010', text: '#f6f6f4' },
+        color: { paper: '#f0e2c9', plate: '#1a1009', text: '#fff7ea' }
+    };
+
+    /* Шрифты: всё, что лежит в media/fonts. Добавили новый файл — допишите строку сюда. */
+    var FONTS = [
+        { id: 'gteestiprodisplay_bold', label: 'GT Eesti Pro Display Bold (локальный)', css: "'Plank', 'Oswald', sans-serif" },
+        { id: 'unisans_heavy',         label: 'Uni Sans Heavy (локальный)',             css: "'UniSansHeavy', 'Oswald', sans-serif" },
+        { id: 'opensans_bold',         label: 'Open Sans Bold (локальный)',             css: "'OpenSansBold', 'Oswald', sans-serif" },
+        { id: 'oswald',                label: 'Oswald 700 (Google Fonts)',              css: "'Oswald', sans-serif" }
+    ];
+
+    var root = document.documentElement;
+    var $ = function (id) { return document.getElementById(id); };
+    var plate = $('plate'), txt = $('txt'), stage = $('stage'), holder = $('holder');
+    var era = 'sepia';
+
+    var state = {
+        font: FONTS[0].id,
+        fs: 64, ls: 6, lh: 1.3,
+        padx: 0.9, padt: 0.3, padb: 0.14,
+        radius: 0, ring: 11, shadow: 26,
+        wobble: 7, chips: 36, gfreq: 0.03,
+        upper: true, chipsText: true,
+        colors: PRESETS.sepia
+    };
+
+    function chipsMatrix(percent) {
+        if (percent <= 0) return '0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0';
+        var slope = 9;
+        var threshold = 0.90 - percent * 0.003;
+        return '0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -' + slope + ' 0 0 0 ' + (slope * threshold).toFixed(3);
+    }
+
+    function fontCss() {
+        for (var i = 0; i < FONTS.length; i++) { if (FONTS[i].id === state.font) return FONTS[i].css; }
+        return FONTS[0].css;
+    }
+    function fontLabel() {
+        for (var i = 0; i < FONTS.length; i++) { if (FONTS[i].id === state.font) return FONTS[i].label; }
+        return FONTS[0].label;
+    }
+
+    function apply() {
+        root.style.setProperty('--font', fontCss());
+        root.style.setProperty('--fs', state.fs + 'px');
+        root.style.setProperty('--ls', state.ls + 'px');
+        root.style.setProperty('--lh', state.lh);
+        root.style.setProperty('--padx', state.padx + 'em');
+        root.style.setProperty('--padt', state.padt + 'em');
+        root.style.setProperty('--padb', state.padb + 'em');
+        root.style.setProperty('--radius', state.radius + 'px');
+        root.style.setProperty('--ring', state.ring + 'px');
+        root.style.setProperty('--shadow', state.shadow + 'px');
+        root.style.setProperty('--plate', state.colors.plate);
+        root.style.setProperty('--paper', state.colors.paper);
+        root.style.setProperty('--text', state.colors.text);
+
+        plate.classList.toggle('upper', state.upper);
+        plate.classList.toggle('texchips', state.chipsText);
+        plate.classList.toggle('nochips', state.wobble === 0 && state.chips === 0);
+
+        $('dispBig').setAttribute('scale', state.wobble);
+        $('turbBig').setAttribute('baseFrequency', state.gfreq);
+        $('grainMat').setAttribute('values', chipsMatrix(state.chips));
+        $('grainMatText').setAttribute('values', chipsMatrix(Math.round(state.chips * 0.7)));
+
+        $('o-fs').textContent = state.fs + ' px';
+        $('o-ls').textContent = state.ls + ' px';
+        $('o-lh').textContent = state.lh.toFixed(2);
+        $('o-padx').textContent = state.padx.toFixed(2) + ' em';
+        $('o-padt').textContent = state.padt.toFixed(2) + ' em';
+        $('o-padb').textContent = state.padb.toFixed(2) + ' em';
+        $('o-radius').textContent = state.radius + ' px';
+        $('o-ring').textContent = state.ring + ' px';
+        $('o-shadow').textContent = state.shadow + ' px';
+        $('o-wobble').textContent = state.wobble;
+        $('o-chips').textContent = state.chips + ' %';
+        $('o-gfreq').textContent = state.gfreq.toFixed(3);
+
+        $('out').value = JSON.stringify({
+            era: era,
+            font: fontLabel(),
+            fontSize: state.fs,
+            letterSpacing: state.ls,
+            lineHeight: state.lh,
+            padX: +state.padx.toFixed(2),
+            padTop: +state.padt.toFixed(2),
+            padBottom: +state.padb.toFixed(2),
+            radius: state.radius,
+            ring: state.ring,
+            shadow: state.shadow,
+            wobble: state.wobble,
+            chips: state.chips,
+            chipFrequency: +state.gfreq.toFixed(3),
+            uppercase: state.upper,
+            chipsOnText: state.chipsText,
+            colors: state.colors
+        }, null, 2);
+    }
+
+    function bind(id, key) {
+        var el = $(id);
+        el.addEventListener('input', function () { state[key] = parseFloat(el.value); apply(); });
+    }
+
+    bind('fs', 'fs'); bind('ls', 'ls'); bind('lh', 'lh');
+    bind('padx', 'padx'); bind('padt', 'padt'); bind('padb', 'padb');
+    bind('radius', 'radius'); bind('ring', 'ring'); bind('shadow', 'shadow');
+    bind('wobble', 'wobble'); bind('chips', 'chips'); bind('gfreq', 'gfreq');
+
+    $('upper').addEventListener('change', function () { state.upper = this.checked; apply(); });
+    $('chipsText').addEventListener('change', function () { state.chipsText = this.checked; apply(); });
+
+    $('c-paper').addEventListener('input', function () { state.colors.paper = this.value; apply(); });
+    $('c-plate').addEventListener('input', function () { state.colors.plate = this.value; apply(); });
+    $('c-text').addEventListener('input', function () { state.colors.text = this.value; apply(); });
+
+    var fontSel = $('font');
+    FONTS.forEach(function (f) {
+        var opt = document.createElement('option');
+        opt.value = f.id; opt.textContent = f.label;
+        fontSel.appendChild(opt);
+    });
+    fontSel.value = state.font;
+    fontSel.addEventListener('change', function () { state.font = this.value; apply(); });
+    $('fontHint').textContent = 'Список собран из media/fonts. Чтобы добавить шрифт — положите файл туда, объявите @font-face в этом файле и допишите строку в массив FONTS.';
+
+    document.querySelectorAll('button.preset').forEach(function (b) {
+        b.addEventListener('click', function () {
+            document.querySelectorAll('button.preset').forEach(function (x) { x.classList.remove('on'); });
+            b.classList.add('on');
+            era = b.dataset.preset;
+            state.colors = Object.assign({}, PRESETS[era]);
+            $('c-paper').value = state.colors.paper;
+            $('c-plate').value = state.colors.plate;
+            $('c-text').value = state.colors.text;
+            apply();
+        });
+    });
+
+    var sample = $('sample'), custom = $('custom');
+    function setText() {
+        var v = custom.value.trim();
+        txt.textContent = v || sample.value;
+    }
+    sample.addEventListener('change', function () { custom.value = ''; setText(); });
+    custom.addEventListener('input', setText);
+
+    $('copy').addEventListener('click', function () {
+        var ta = $('out');
+        ta.select(); ta.setSelectionRange(0, ta.value.length);
+        try { document.execCommand('copy'); } catch (e) {}
+        var b = this, old = b.textContent;
+        b.textContent = 'Скопировано';
+        setTimeout(function () { b.textContent = old; }, 1200);
+    });
+
+    function fit() {
+        var s = Math.min(1, holder.clientWidth / 1920);
+        stage.style.transform = 'scale(' + s + ')';
+        holder.style.height = (1080 * s) + 'px';
+    }
+    window.addEventListener('resize', fit);
+
+    apply();
+    fit();
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fit); }
+})();
+</script>
+</body>
+</html>

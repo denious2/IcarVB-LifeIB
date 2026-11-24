@@ -1,0 +1,550 @@
+{
+  "_README": "Версия: 2.4.2. Глобальный манифест медиа-файлов проекта. Генерируется автоматически скриптом media_scanner.js. Содержит структуру пулов и умные режимы наложения SFX.",
+  "scannedAt": "2026-11-23T21:25:41.497Z",
+  "audioTracks": [
+    {
+      "fileName": "LifeIB.mp3",
+      "path": "media/LifeIB.mp3",
+      "sizeBytes": 6759072,
+      "isMainCandidate": true,
+      "durationSeconds": 325.968
+    }
+  ],
+  "scenes": [
+    {
+      "name": "010",
+      "file": "010.jpg",
+      "path": "media/Scenes/001_Intro/010.jpg",
+      "layers": []
+    },
+    {
+      "name": "020",
+      "file": "020.jpg",
+      "path": "media/Scenes/001_Intro/020.jpg",
+      "layers": []
+    },
+    {
+      "name": "030",
+      "file": "030.jpg",
+      "path": "media/Scenes/001_Intro/030.jpg",
+      "layers": []
+    },
+    {
+      "name": "040",
+      "file": "040.jpg",
+      "path": "media/Scenes/001_Intro/040.jpg",
+      "layers": []
+    },
+    {
+      "name": "050",
+      "file": "050.jpg",
+      "path": "media/Scenes/001_Intro/050.jpg",
+      "layers": []
+    },
+    {
+      "name": "130",
+      "file": "130.jpg",
+      "path": "media/Scenes/003_Drop_1/130.jpg",
+      "layers": []
+    },
+    {
+      "name": "140",
+      "file": "140.jpg",
+      "path": "media/Scenes/004_Male_Verse_2/140.jpg",
+      "layers": []
+    },
+    {
+      "name": "150",
+      "file": "150.jpg",
+      "path": "media/Scenes/004_Male_Verse_2/150.jpg",
+      "layers": []
+    },
+    {
+      "name": "160",
+      "file": "160.jpg",
+      "path": "media/Scenes/004_Male_Verse_2/160.jpg",
+      "layers": []
+    },
+    {
+      "name": "170",
+      "file": "170.png",
+      "path": "media/Scenes/004_Male_Verse_2/170.png",
+      "layers": [
+        {
+          "file": "170-prlx-b1.png",
+          "path": "media/Scenes/004_Male_Verse_2/prlx/170-prlx-b1.png"
+        }
+      ]
+    },
+    {
+      "name": "180",
+      "file": "180.jpg",
+      "path": "media/Scenes/004_Male_Verse_2/180.jpg",
+      "layers": []
+    },
+    {
+      "name": "190",
+      "file": "190.png",
+      "path": "media/Scenes/004_Male_Verse_2/190.png",
+      "layers": [
+        {
+          "file": "190-prlx-b1.png",
+          "path": "media/Scenes/004_Male_Verse_2/prlx/190-prlx-b1.png"
+        }
+      ]
+    },
+    {
+      "name": "200",
+      "file": "200.jpg",
+      "path": "media/Scenes/004_Male_Verse_2/200.jpg",
+      "layers": []
+    },
+    {
+      "name": "200",
+      "file": "200.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/200.jpg",
+      "layers": []
+    },
+    {
+      "name": "210",
+      "file": "210.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/210.jpg",
+      "layers": []
+    },
+    {
+      "name": "220",
+      "file": "220.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/220.jpg",
+      "layers": []
+    },
+    {
+      "name": "230",
+      "file": "230.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/230.jpg",
+      "layers": []
+    },
+    {
+      "name": "240",
+      "file": "240.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/240.jpg",
+      "layers": []
+    },
+    {
+      "name": "250",
+      "file": "250.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/250.jpg",
+      "layers": []
+    },
+    {
+      "name": "260",
+      "file": "260.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/260.jpg",
+      "layers": []
+    },
+    {
+      "name": "270",
+      "file": "270.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/270.jpg",
+      "layers": []
+    },
+    {
+      "name": "280",
+      "file": "280.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/280.jpg",
+      "layers": []
+    },
+    {
+      "name": "290",
+      "file": "290.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/290.jpg",
+      "layers": []
+    },
+    {
+      "name": "300",
+      "file": "300.jpg",
+      "path": "media/Scenes/005_Female_Verse_1/300.jpg",
+      "layers": []
+    },
+    {
+      "name": "310",
+      "file": "310.jpg",
+      "path": "media/Scenes/006_Female_Verse_2/310.jpg",
+      "layers": []
+    },
+    {
+      "name": "320",
+      "file": "320.jpg",
+      "path": "media/Scenes/006_Female_Verse_2/320.jpg",
+      "layers": []
+    },
+    {
+      "name": "330",
+      "file": "330.jpg",
+      "path": "media/Scenes/006_Female_Verse_2/330.jpg",
+      "layers": []
+    },
+    {
+      "name": "340",
+      "file": "340.mp4",
+      "path": "media/Scenes/006_Female_Verse_2/340.mp4",
+      "layers": []
+    },
+    {
+      "name": "350",
+      "file": "350.mp4",
+      "path": "media/Scenes/006_Female_Verse_2/350.mp4",
+      "layers": []
+    },
+    {
+      "name": "360",
+      "file": "360.jpg",
+      "path": "media/Scenes/006_Female_Verse_2/360.jpg",
+      "layers": []
+    },
+    {
+      "name": "370",
+      "file": "370.jpg",
+      "path": "media/Scenes/006_Female_Verse_2/370.jpg",
+      "layers": []
+    },
+    {
+      "name": "380",
+      "file": "380.jpg",
+      "path": "media/Scenes/006_Female_Verse_2/380.jpg",
+      "layers": []
+    },
+    {
+      "name": "390",
+      "file": "390.jpg",
+      "path": "media/Scenes/007_Pre-Chorus/390.jpg",
+      "layers": []
+    },
+    {
+      "name": "400",
+      "file": "400.png",
+      "path": "media/Scenes/007_Pre-Chorus/400.png",
+      "layers": [
+        {
+          "file": "400-prlx-b1.png",
+          "path": "media/Scenes/007_Pre-Chorus/prlx/400-prlx-b1.png"
+        }
+      ]
+    },
+    {
+      "name": "410",
+      "file": "410.jpg",
+      "path": "media/Scenes/007_Pre-Chorus/410.jpg",
+      "layers": []
+    },
+    {
+      "name": "420",
+      "file": "420.jpg",
+      "path": "media/Scenes/007_Pre-Chorus/420.jpg",
+      "layers": []
+    },
+    {
+      "name": "430",
+      "file": "430.mp4",
+      "path": "media/Scenes/007_Pre-Chorus/430.mp4",
+      "layers": []
+    },
+    {
+      "name": "440",
+      "file": "440.mp4",
+      "path": "media/Scenes/007_Pre-Chorus/440.mp4",
+      "layers": []
+    },
+    {
+      "name": "450",
+      "file": "450.jpg",
+      "path": "media/Scenes/008_Chorus/450.jpg",
+      "layers": []
+    },
+    {
+      "name": "460",
+      "file": "460.png",
+      "path": "media/Scenes/008_Chorus/460.png",
+      "layers": [
+        {
+          "file": "460-prlx-b1.png",
+          "path": "media/Scenes/008_Chorus/prlx/460-prlx-b1.png"
+        },
+        {
+          "file": "460-prlx-b2.png",
+          "path": "media/Scenes/008_Chorus/prlx/460-prlx-b2.png"
+        }
+      ]
+    },
+    {
+      "name": "473",
+      "file": "473.mp4",
+      "path": "media/Scenes/008_Chorus/473.mp4",
+      "layers": []
+    },
+    {
+      "name": "480",
+      "file": "480.jpg",
+      "path": "media/Scenes/008_Chorus/480.jpg",
+      "layers": []
+    },
+    {
+      "name": "485",
+      "file": "485.jpg",
+      "path": "media/Scenes/008_Chorus/485.jpg",
+      "layers": []
+    },
+    {
+      "name": "490",
+      "file": "490.jpg",
+      "path": "media/Scenes/008_Chorus/490.jpg",
+      "layers": []
+    },
+    {
+      "name": "500",
+      "file": "500.png",
+      "path": "media/Scenes/008_Chorus/500.png",
+      "layers": [
+        {
+          "file": "500-prlx-b1.png",
+          "path": "media/Scenes/008_Chorus/prlx/500-prlx-b1.png"
+        }
+      ]
+    },
+    {
+      "name": "510",
+      "file": "510.jpg",
+      "path": "media/Scenes/009_Female_Verse_3/510.jpg",
+      "layers": []
+    },
+    {
+      "name": "520",
+      "file": "520.jpg",
+      "path": "media/Scenes/009_Female_Verse_3/520.jpg",
+      "layers": []
+    },
+    {
+      "name": "530",
+      "file": "530.png",
+      "path": "media/Scenes/009_Female_Verse_3/530.png",
+      "layers": [
+        {
+          "file": "530-prlx-b1.png",
+          "path": "media/Scenes/009_Female_Verse_3/prlx/530-prlx-b1.png"
+        }
+      ]
+    },
+    {
+      "name": "540",
+      "file": "540.png",
+      "path": "media/Scenes/009_Female_Verse_3/540.png",
+      "layers": [
+        {
+          "file": "540-prlx-b-1.png",
+          "path": "media/Scenes/009_Female_Verse_3/prlx/540-prlx-b-1.png"
+        },
+        {
+          "file": "540-prlx-b1.png",
+          "path": "media/Scenes/009_Female_Verse_3/prlx/540-prlx-b1.png"
+        },
+        {
+          "file": "540-prlx-b2.png",
+          "path": "media/Scenes/009_Female_Verse_3/prlx/540-prlx-b2.png"
+        }
+      ]
+    },
+    {
+      "name": "550",
+      "file": "550.mp4",
+      "path": "media/Scenes/009_Female_Verse_3/550.mp4",
+      "layers": []
+    },
+    {
+      "name": "560",
+      "file": "560.jpg",
+      "path": "media/Scenes/009_Female_Verse_3/560.jpg",
+      "layers": []
+    },
+    {
+      "name": "570",
+      "file": "570.jpg",
+      "path": "media/Scenes/010_Female_Verse_4/570.jpg",
+      "layers": []
+    },
+    {
+      "name": "580",
+      "file": "580.jpg",
+      "path": "media/Scenes/011_Male_Verse 3/580.jpg",
+      "layers": []
+    },
+    {
+      "name": "590",
+      "file": "590.jpg",
+      "path": "media/Scenes/011_Male_Verse 3/590.jpg",
+      "layers": []
+    },
+    {
+      "name": "600",
+      "file": "600.jpg",
+      "path": "media/Scenes/011_Male_Verse 3/600.jpg",
+      "layers": []
+    },
+    {
+      "name": "610",
+      "file": "610.jpg",
+      "path": "media/Scenes/011_Male_Verse 3/610.jpg",
+      "layers": []
+    },
+    {
+      "name": "620",
+      "file": "620.jpg",
+      "path": "media/Scenes/012_Outro/620.jpg",
+      "layers": []
+    },
+    {
+      "name": "630",
+      "file": "630.jpg",
+      "path": "media/Scenes/012_Outro/630.jpg",
+      "layers": []
+    },
+    {
+      "name": "640",
+      "file": "640.jpg",
+      "path": "media/Scenes/012_Outro/640.jpg",
+      "layers": []
+    },
+    {
+      "name": "650",
+      "file": "650.jpg",
+      "path": "media/Scenes/012_Outro/650.jpg",
+      "layers": []
+    },
+    {
+      "name": "660",
+      "file": "660.jpg",
+      "path": "media/Scenes/013_Fade_Out/660.jpg",
+      "layers": []
+    },
+    {
+      "name": "670",
+      "file": "670.jpg",
+      "path": "media/Scenes/013_Fade_Out/670.jpg",
+      "layers": []
+    },
+    {
+      "name": "060",
+      "file": "060.jpg",
+      "path": "media/Scenes/060.jpg",
+      "layers": []
+    },
+    {
+      "name": "070",
+      "file": "070.jpg",
+      "path": "media/Scenes/070.jpg",
+      "layers": []
+    },
+    {
+      "name": "080",
+      "file": "080.jpg",
+      "path": "media/Scenes/080.jpg",
+      "layers": []
+    },
+    {
+      "name": "090",
+      "file": "090.jpg",
+      "path": "media/Scenes/090.jpg",
+      "layers": []
+    },
+    {
+      "name": "100",
+      "file": "100.jpg",
+      "path": "media/Scenes/100.jpg",
+      "layers": []
+    },
+    {
+      "name": "110",
+      "file": "110.jpg",
+      "path": "media/Scenes/110.jpg",
+      "layers": []
+    },
+    {
+      "name": "120",
+      "file": "120.jpg",
+      "path": "media/Scenes/120.jpg",
+      "layers": []
+    }
+  ],
+  "sfx": [
+    {
+      "file": "Ash-11.mp4",
+      "path": "media/sfx/Ash/Ash-11.mp4",
+      "background": "dark",
+      "recommendedBlendMode": "screen"
+    },
+    {
+      "file": "Barbed_wire-11.mp4",
+      "path": "media/sfx/Barbed-Wire/Barbed_wire-11.mp4",
+      "background": "light",
+      "recommendedBlendMode": "multiply"
+    },
+    {
+      "file": "Black_ash-11.mp4",
+      "path": "media/sfx/Black-Ash/Black_ash-11.mp4",
+      "background": "dark",
+      "recommendedBlendMode": "screen"
+    },
+    {
+      "file": "Black_ash-12.mp4",
+      "path": "media/sfx/Black-Ash2/Black_ash-12.mp4",
+      "background": "dark",
+      "recommendedBlendMode": "screen"
+    },
+    {
+      "file": "Light_dust.mp4",
+      "path": "media/sfx/Light-Dust/Light_dust.mp4",
+      "background": "dark",
+      "recommendedBlendMode": "screen"
+    },
+    {
+      "file": "Retro_film_hairs-11.mp4",
+      "path": "media/sfx/Retro_film_hairs/Retro_film_hairs-11.mp4",
+      "background": "light",
+      "recommendedBlendMode": "multiply"
+    },
+    {
+      "file": "sk-angl-11.mp4",
+      "path": "media/sfx/Sky-angel-11/sk-angl-11.mp4",
+      "background": "dark",
+      "recommendedBlendMode": "screen"
+    },
+    {
+      "file": "sk-angl-21.mp4",
+      "path": "media/sfx/Sky-angel-21/sk-angl-21.mp4",
+      "background": "dark",
+      "recommendedBlendMode": "screen"
+    },
+    {
+      "file": "vert-lines-11.mp4",
+      "path": "media/sfx/vert-lines/vert-lines-11.mp4",
+      "background": "light",
+      "recommendedBlendMode": "multiply"
+    },
+    {
+      "file": "vert-crcks-11.mp4",
+      "path": "media/sfx/Vertical-cracks/vert-crcks-11.mp4",
+      "background": "dark",
+      "recommendedBlendMode": "screen"
+    },
+    {
+      "file": "Vertical_fireflies-11.mp4",
+      "path": "media/sfx/Vertical-fireflies/Vertical_fireflies-11.mp4",
+      "background": "dark",
+      "recommendedBlendMode": "screen"
+    },
+    {
+      "file": "vert-fr-11.mp4",
+      "path": "media/sfx/Vertical-fractures/vert-fr-11.mp4",
+      "background": "dark",
+      "recommendedBlendMode": "screen"
+    }
+  ]
+}

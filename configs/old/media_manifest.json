@@ -1,0 +1,82 @@
+{
+  "scannedAt": "2026-11-06T22:28:21.585Z",
+  "audioTracks": [
+    {
+      "fileName": "LifeIB.mp3",
+      "path": "media/LifeIB.mp3",
+      "sizeBytes": 6759072,
+      "isMainCandidate": true,
+      "durationSeconds": 325.968
+    }
+  ],
+  "scenes": [
+    {
+      "name": "060",
+      "file": "060.png",
+      "path": "media/Scenes/060.png",
+      "layers": []
+    },
+    {
+      "name": "070",
+      "file": "070.png",
+      "path": "media/Scenes/070.png",
+      "layers": []
+    },
+    {
+      "name": "080",
+      "file": "080.png",
+      "path": "media/Scenes/080.png",
+      "layers": []
+    },
+    {
+      "name": "090",
+      "file": "090.png",
+      "path": "media/Scenes/090.png",
+      "layers": []
+    },
+    {
+      "name": "100",
+      "file": "100.png",
+      "path": "media/Scenes/100.png",
+      "layers": []
+    },
+    {
+      "name": "110",
+      "file": "110.png",
+      "path": "media/Scenes/110.png",
+      "layers": []
+    },
+    {
+      "name": "120",
+      "file": "120.png",
+      "path": "media/Scenes/120.png",
+      "layers": []
+    }
+  ],
+  "sfx": [
+    {
+      "file": "glitch-vert-12.mp4",
+      "path": "media/sfx/accents/glitch-vert-12.mp4"
+    },
+    {
+      "file": "graphite_dust_loop.mp4",
+      "path": "media/sfx/dust/graphite_dust_loop.mp4"
+    },
+    {
+      "file": "graphite_scribble_flash.mp4",
+      "path": "media/sfx/flash/graphite_scribble_flash.mp4"
+    },
+    {
+      "file": "storm_debris_transition.mp4",
+      "path": "media/sfx/transition/storm_debris_transition.mp4"
+    },
+    {
+      "file": "vert-;ines-11.mp4",
+      "path": "media/sfx/vert-lines/vert-;ines-11.mp4"
+    },
+    {
+      "file": "vert-lines-11.mp4",
+      "path": "media/sfx/vert-lines/vert-lines-11.mp4"
+    }
+  ]
+}

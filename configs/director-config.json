@@ -1,0 +1,758 @@
+{
+  "_README": "Режиссерский конфиг проекта LifeIB. Управляет структурой песни, правилами секций, пулами ассетов, аудио-реакторами и переопределениями. Все ключи соответствуют новому движку core/ (resolver-пайплайн v5.x): sectionTypeRules[].globalFilter, assetPools[].persistent, directorOverrides.files[].media. Ключ colorGrade в правилах секций НЕ используется движком — цвет живёт в globalFilter.",
+  "layers": {
+    "0_audio": "Аудио трек (Скрытый слой, track -1)",
+    "2_main": "Слой 2 (Сцена, #host-images)",
+    "3_narrative": "Слой 3 (001_Intro)",
+    "4_narrative": "Слой 4 (002_Male_verse_1)",
+    "5_narrative": "Слой 5 (003_Drop_1)",
+    "6_narrative": "Слой 6 (004_Male_Verse_2)",
+    "7_narrative": "Слой 7 (005_Female_Verse_1)",
+    "8_narrative": "Слой 8 (006_Female_Verse_2)",
+    "9_narrative": "Слой 9 (007_Pre-Chorus)",
+    "10_narrative": "Слой 10 (008_Chorus)",
+    "11_narrative": "Слой 11 (009_Female_Verse_3)",
+    "12_narrative": "Слой 12 (010_Female_Verse_4)",
+    "13_narrative": "Слой 13 (011_Male_Verse_3)",
+    "14_narrative": "Слой 14 (012_Outro)",
+    "15_narrative": "Слой 15 (013_Fade_Out)",
+    "50_text": "Субтитры (#host-subs)",
+    "81_atmos_sepia": "Атмосфера: Пленка (81), пыль (85) и ретро-полосы (86) — Воспоминания",
+    "82_atmos_blue": "Атмосфера: Проволока (82) и черный пепел (87) — Лагерь",
+    "83_atmos_mono": "Атмосфера: Серый пепел (83) и полосы (88) — Монохром",
+    "84_atmos_color": "Атмосфера: Золотые искры (84) — Катарсис",
+    "90_fx_transition": "Переходы между секциями (storm debris)",
+    "91_fx_flash": "Графитовый флеш-акцент",
+    "99_top": "Глитчи и транзишены (#host-accents)"
+  },
+  "songStructure": [
+    { "time": 0.0, "name": "001_Intro", "type": "intro_sepia" },
+    { "time": 23.0, "name": "002_Male_verse_1", "type": "verse_1" },
+    { "time": 50.0, "name": "003_Drop_1", "type": "drop_1" },
+    { "time": 54.0, "name": "004_Male_Verse_2", "type": "verse_2" },
+    { "time": 87.0, "name": "005_Female_Verse_1", "type": "f_verse_1" },
+    { "time": 117.0, "name": "005b_Dream", "type": "dream_soft" },
+    { "time": 133.0, "name": "006_Female_Verse_2", "type": "f_verse_2" },
+    { "time": 172.0, "name": "007_Pre-Chorus", "type": "pre_chorus" },
+    { "time": 202.0, "name": "008_Chorus", "type": "chorus" },
+    { "time": 234.0, "name": "009_Female_Verse_3", "type": "f_verse_3" },
+    { "time": 265.0, "name": "010_Female_Verse_4", "type": "f_verse_4" },
+    { "time": 272.0, "name": "011_Male_Verse_3", "type": "m_verse_3" },
+    { "time": 295.0, "name": "012_Outro", "type": "outro" },
+    { "time": 316.0, "name": "013_Fade_Out", "type": "fade_out" }
+  ],
+  "sectionTypeRules": {
+    "intro_sepia": { "allowedLayers": [3, 50, 99, 81, 85], "blackout": false, "globalFilter": "grade_sepia" },
+    "verse_1": { "allowedLayers": [4, 50, 99, 81], "blackout": false, "globalFilter": "grade_sepia" },
+
+    "drop_1": { "allowedLayers": [5, 50, 99], "blackout": false, "globalFilter": "grade_cold" },
+    "verse_2": { "allowedLayers": [6, 50, 99], "blackout": false, "globalFilter": "grade_cold" },
+    "f_verse_1": { "allowedLayers": [7, 50, 99], "blackout": false, "globalFilter": "grade_cold" },
+    "dream_soft": { "allowedLayers": [7, 50, 99], "blackout": false, "globalFilter": "grade_dream" },
+    "f_verse_2": { "allowedLayers": [8, 50, 99], "blackout": false, "globalFilter": "grade_cold" },
+    "pre_chorus": { "allowedLayers": [9, 50, 99], "blackout": false, "globalFilter": "grade_cold" },
+    "chorus": { "allowedLayers": [10, 50, 99], "blackout": false, "globalFilter": "grade_heartbeat" },
+    "f_verse_3": { "allowedLayers": [11, 50, 99], "blackout": false, "globalFilter": "grade_cold" },
+
+    "f_verse_4": { "allowedLayers": [12, 50, 99], "blackout": false, "globalFilter": "grade_mono" },
+    "m_verse_3": { "allowedLayers": [13, 50, 99], "blackout": false, "globalFilter": "grade_mono" },
+    "outro": { "allowedLayers": [14, 50, 99], "blackout": false, "globalFilter": "grade_mono" },
+
+    "fade_out": { "allowedLayers": [15, 50, 99, 84], "blackout": false, "globalFilter": "grade_hope" }
+  },
+  "layerBlendModes": {
+    "host-visuals-bg": "normal",
+    "host-images": "normal",
+    "host-visuals-fg": "normal",
+    "host-dust": "normal"
+  },
+  "overlays": {
+    "shadowCrush": "shadow_crush_default",
+    "screenFlash": "flash_black_smoke"
+  },
+  "subtitlesConfig": {
+    "enabled": true,
+    "defaultStyle": "plank_sepia",
+    "defaultAnimIn": "drift_in",
+    "defaultAnimOut": "drift_out",
+    "defaultMotion": "none",
+    "defaultDurIn": 0.45,
+    "defaultDurOut": 0.32,
+    "kinetic": false,
+    "handDrawn": {
+      "enabled": false,
+      "svgFilter": "",
+      "maxRotate": 0,
+      "maxOffsetY": 0
+    },
+    "accentWords": [
+      "мой мальчик",
+      "хороший мальчик",
+      "это такой квест",
+      "реальном танке",
+      "я буду держаться",
+      "за верёвку над пропастью",
+      "душа твоя мальчик невинна ещё",
+      "новая звезда",
+      "всё кончено",
+      "IHR GEHT JETZT DUSCHEN",
+      "и только пепел",
+      "из каменных труб"
+    ],
+    "accentMotion": "none",
+    "wordStyle": "animation: plank_letter_jitter 1.2s steps(3) infinite;",
+    "overrideBySectionType": {
+      "intro_sepia": { "style": "plank_sepia" },
+      "verse_1": { "style": "plank_sepia" },
+      "drop_1": { "style": "plank_camp" },
+      "verse_2": { "style": "plank_camp" },
+      "f_verse_1": { "style": "plank_camp" },
+      "dream_soft": { "style": "plank_camp" },
+      "f_verse_2": { "style": "plank_camp" },
+      "pre_chorus": { "style": "plank_camp" },
+      "chorus": {
+        "style": "plank_camp",
+        "animation": {
+          "entrance": "glitch_snap",
+          "durationIn": 0.12,
+          "exit": "hard_cut",
+          "durationOut": 0.05,
+          "motion": "none"
+        }
+      },
+      "f_verse_3": { "style": "plank_camp" },
+      "f_verse_4": { "style": "plank_mono" },
+      "m_verse_3": { "style": "plank_mono" },
+      "outro": { "style": "plank_mono" },
+      "fade_out": { "style": "plank_color" }
+    }
+  },
+  "beatsConfig": {
+    "enabled": true,
+    "sourceFile": "beats.json",
+    "decay": 0.15,
+    "multiplier": 0.5,
+    "type": "solid",
+    "dynamics": "soft",
+    "color": "#000000",
+    "intensity": 0.06,
+    "duration": 0.09
+  },
+  "bass": { "enabled": true, "sourceFile": "bass.json", "decay": 0.3 },
+  "melody": { "enabled": true, "sourceFile": "melody.json", "decay": 0.2 },
+  "vocal": { "enabled": true, "sourceFile": "vocal.json", "decay": 0.2 },
+  "accents": {
+    "enabled": true,
+    "sourceFile": "accents.json",
+    "shakes": {
+      "enabled": true,
+      "duration": 0.22,
+      "pool": ["accent_push_small"]
+    },
+    "videoGlitches": {
+      "enabled": true,
+      "duration": 0.75,
+      "file": "media/sfx/vert-lines/vert-lines-11.mp4",
+      "blendMode": "multiply",
+      "slices": 8,
+      "sequence": [2, "none", 3, "none", 5, "none", 3, 8, "none", 4],
+      "style": "none"
+    }
+  },
+  "audioReactors": {
+    "enabled": true,
+    "nodes": [
+      {
+        "name": "Давление Тьмы (Бас)",
+        "description": "Уплотнение теней на низких частотах. База снижена, чтобы кадр не проваливался в чёрное.",
+        "target": "#shadow-crush-overlay",
+        "cssProperty": "opacity",
+        "formulaParts": [
+          { "code": "calc(0.1 + var(--bass) * 0.16)", "note": "Мягкое затемнение по басу" }
+        ],
+        "transition": "opacity 0.06s ease-out"
+      },
+      {
+        "name": "Плашка плывёт (Бит и Бас)",
+        "description": "Плашка субтитров медленно дрейфует под ритм: горизонталь — от удара, вертикаль — от баса.",
+        "target": ".subtitle-text-inline",
+        "cssProperty": "transform",
+        "formulaParts": [
+          { "code": "translate(calc(var(--beat) * -1.5px), calc(var(--bass) * 2.5px))", "note": "Дрейф по двум осям" },
+          { "code": "rotate(calc(var(--beat) * 0.12deg))", "note": "Едва заметный крен" }
+        ],
+        "transition": "transform 0.09s ease-out"
+      },
+      {
+        "name": "Дыхание Плёнки (Бит)",
+        "description": "Атмосферный слой (пыль, шум, полосы) чуть дышит на каждом ударе.",
+        "target": "#host-dust",
+        "cssProperty": "transform",
+        "formulaParts": [
+          { "code": "scale(calc(1 + var(--beat) * 0.004))", "note": "Дыхание текстуры" }
+        ],
+        "transition": "transform 0.12s ease-out"
+      },
+      {
+        "name": "Свет Надежды (Гейт финала)",
+        "description": "С 316-й секунды кадр постепенно выходит из тьмы в цвет и свет.",
+        "target": "#host-images",
+        "cssProperty": "filter",
+        "formulaParts": [
+          { "code": "brightness(calc(1 + var(--gate) * 0.22))", "note": "Просветление финала" },
+          { "code": "saturate(calc(1 + var(--gate) * 0.25))", "note": "Возврат цвета" }
+        ],
+        "activeFrom": 316.0,
+        "activeDuration": 9.968,
+        "transition": "filter 0.5s ease-in"
+      },
+      {
+        "name": "Медленное Приближение (Огибающая)",
+        "description": "Плавный наезд по огибающей: почти незаметен весь клип и раскрывается к последней секунде.",
+        "target": "#host-images",
+        "cssProperty": "transform",
+        "formulaParts": [
+          { "code": "scale(calc(1 + var(--env) * 0.03))", "note": "Рост масштаба по огибающей" }
+        ],
+        "envelope": {
+          "mode": "curve",
+          "points": [
+            { "x": 0.0, "y": 0.0 },
+            { "x": 0.9, "y": 0.08 },
+            { "x": 1.0, "y": 1.0 }
+          ]
+        },
+        "transition": "transform 0.2s ease-out"
+      },
+      {
+        "name": "Чёрная вспышка (Вход в серую секцию)",
+        "description": "Короткое затемнение до чёрного на входе в секцию «воет ветер» (264.7 s).",
+        "target": "#screen-flash-overlay",
+        "cssProperty": "opacity",
+        "formulaParts": [
+          { "code": "var(--gate)", "note": "0 -> 1 -> 0 за 0.35 s" }
+        ],
+        "activeFrom": 264.7,
+        "activeDuration": 0.35,
+        "transition": "opacity 0.18s ease-out"
+      },
+      {
+        "name": "Сердцебиение (Припев)",
+        "description": "В припеве кадр отвечает на бас как на редкие удары сердца и медленно плывёт от вокала.",
+        "target": "#host-images",
+        "cssProperty": "transform",
+        "formulaParts": [
+          { "code": "scale(calc(1 + var(--bass) * 0.012))", "note": "Толчок от баса" },
+          { "code": "translateY(calc(var(--vocal) * -3px))", "note": "Дрейф от вокала" }
+        ],
+        "activeFrom": 202.0,
+        "activeDuration": 32.0,
+        "transition": "transform 0.12s ease-out"
+      },
+      {
+        "name": "Виньетка дышит (Бас)",
+        "description": "Тёмная виньетка по краям кадра: заполнение меняется на каждом низе.",
+        "target": ".vignette-layer",
+        "cssProperty": "opacity",
+        "formulaParts": [
+          { "code": "calc(0.45 + var(--bass) * 0.45)", "note": "Заполнение по басу" }
+        ],
+        "transition": "opacity 0.09s ease-out"
+      },
+      {
+        "name": "Небо темнеет (02:53, Припев 2)",
+        "description": "В секции 172-202 s кадр сильнее проваливается в тень на каждом низе.",
+        "target": "#host-images",
+        "cssProperty": "filter",
+        "formulaParts": [
+          { "code": "brightness(calc(1 - var(--bass) * 0.14))", "note": "Затемнение по басу" }
+        ],
+        "activeFrom": 172.0,
+        "activeDuration": 30.0,
+        "transition": "filter 0.1s ease-out"
+      },
+      {
+        "name": "Голос ведёт плашку — сепия",
+        "description": "Вариант 1 (001-002): плашка всплывает и чуть растёт на голосе.",
+        "target": ".subtitle-text-inline",
+        "cssProperty": "transform",
+        "formulaParts": [
+          { "code": "translateY(calc(var(--vocal) * -4px))", "note": "Подъём на голосе" },
+          { "code": "scale(calc(1 + var(--vocal) * 0.012))", "note": "Рост" }
+        ],
+        "activeFrom": 0.0,
+        "activeDuration": 50.0,
+        "transition": "transform 0.12s ease-out"
+      },
+      {
+        "name": "Голос ведёт плашку — лагерь",
+        "description": "Вариант 2 (003-009): плашку ведёт в сторону с наклоном, как от дыхания.",
+        "target": ".subtitle-text-inline",
+        "cssProperty": "transform",
+        "formulaParts": [
+          { "code": "skewX(calc(var(--vocal) * 1.2deg))", "note": "Наклон от голоса" },
+          { "code": "translateX(calc(var(--vocal) * 3px))", "note": "Снос в сторону" }
+        ],
+        "activeFrom": 54.0,
+        "activeDuration": 211.0,
+        "transition": "transform 0.14s ease-out"
+      },
+      {
+        "name": "Голос ведёт плашку — монохром",
+        "description": "Вариант 3 (010-012): медленное оседание вниз с микроповоротом.",
+        "target": ".subtitle-text-inline",
+        "cssProperty": "transform",
+        "formulaParts": [
+          { "code": "translateY(calc(var(--vocal) * 3px))", "note": "Оседание" },
+          { "code": "rotate(calc(var(--vocal) * 0.3deg))", "note": "Микроповорот" }
+        ],
+        "activeFrom": 265.0,
+        "activeDuration": 51.0,
+        "transition": "transform 0.18s ease-out"
+      },
+      {
+        "name": "Голос ведёт плашку — финал",
+        "description": "Вариант 4 (013): плашка распрямляется и подаётся вперёд, к свету.",
+        "target": ".subtitle-text-inline",
+        "cssProperty": "transform",
+        "formulaParts": [
+          { "code": "scale(calc(1 + var(--vocal) * 0.03))", "note": "Подача вперёд" },
+          { "code": "translateY(calc(var(--vocal) * -2px))", "note": "Подъём" }
+        ],
+        "activeFrom": 316.0,
+        "activeDuration": 10.0,
+        "transition": "transform 0.16s ease-out"
+      }
+    ]
+  },
+  "directorOverrides": {
+    "_hint": "Точечные оверрайды по имени файла (ключ ищется по basename и basename без расширения, регистр не важен). В новом движке читаются только media.* и effect.*; верхнеуровневые appearance/entrance больше не работают.",
+    "files": {
+      "130": {
+        "media": { "animIn": "soft_fade", "duration": 4.0 }
+      },
+      "560": {
+        "media": { "animIn": "soft_fade" }
+      },
+      "660": {
+        "media": { "animIn": "soft_fade", "duration": 5.0 }
+      },
+      "670": {
+        "media": { "animIn": "reveal_from_black", "duration": 2.5 }
+      }
+    },
+    "freeOverlays": [
+      {
+        "pool": "skip_removed",
+        "absStart": 49.2,
+        "duration": 1.4,
+        "z": 90,
+        "blend": "multiply",
+        "opacity": 0.85,
+        "animIn": "fade_in_base",
+        "animOut": "hard_cut",
+        "motion": "none",
+        "loop": false
+      },
+      {
+        "pool": "skip_removed",
+        "absStart": 201.0,
+        "duration": 1.6,
+        "z": 90,
+        "blend": "multiply",
+        "opacity": 0.85,
+        "animIn": "fade_in_base",
+        "animOut": "hard_cut",
+        "motion": "none",
+        "loop": false
+      },
+      {
+        "pool": "skip_removed",
+        "absStart": 294.2,
+        "duration": 1.6,
+        "z": 90,
+        "blend": "multiply",
+        "opacity": 0.85,
+        "animIn": "fade_in_base",
+        "animOut": "hard_cut",
+        "motion": "none",
+        "loop": false
+      },
+      {
+        "pool": "skip_removed",
+        "absStart": 315.2,
+        "duration": 1.6,
+        "z": 90,
+        "blend": "multiply",
+        "opacity": 0.8,
+        "animIn": "fade_in_base",
+        "animOut": "hard_cut",
+        "motion": "none",
+        "loop": false
+      },
+      {
+        "pool": "skip_removed",
+        "absStart": 50.0,
+        "duration": 0.4,
+        "z": 91,
+        "blend": "multiply",
+        "opacity": 0.35,
+        "animIn": "fade_in_base",
+        "animOut": "hard_cut",
+        "motion": "none",
+        "loop": false
+      },
+      {
+        "pool": "skip_removed",
+        "absStart": 202.0,
+        "duration": 0.4,
+        "z": 91,
+        "blend": "multiply",
+        "opacity": 0.35,
+        "animIn": "fade_in_base",
+        "animOut": "hard_cut",
+        "motion": "none",
+        "loop": false
+      },
+      {
+        "pool": "skip_removed",
+        "absStart": 316.0,
+        "duration": 9.968,
+        "z": 92,
+        "blend": "multiply",
+        "opacity": 0.18,
+        "animIn": "fade_in_base",
+        "animOut": "hard_cut",
+        "motion": "none",
+        "loop": true
+      },
+
+      { "pool": "wire", "absStart": 50.6, "duration": 6.8, "z": 82, "blend": "multiply", "opacity": 0.25, "animIn": "blend_in_out" },
+      { "pool": "wire", "absStart": 66.0, "duration": 6.8, "z": 82, "blend": "multiply", "opacity": 0.25, "animIn": "blend_in_out" },
+      { "pool": "wire", "absStart": 81.4, "duration": 6.8, "z": 82, "blend": "multiply", "opacity": 0.25, "animIn": "blend_in_out" },
+      { "pool": "wire", "absStart": 96.8, "duration": 6.8, "z": 82, "blend": "multiply", "opacity": 0.25, "animIn": "blend_in_out" },
+      { "pool": "wire", "absStart": 110.2, "duration": 6.8, "z": 82, "blend": "multiply", "opacity": 0.25, "animIn": "blend_in_out" },
+      { "pool": "wire", "absStart": 203.0, "duration": 6.8, "z": 82, "blend": "multiply", "opacity": 0.25, "animIn": "blend_in_out" },
+      { "pool": "wire", "absStart": 219.5, "duration": 6.8, "z": 82, "blend": "multiply", "opacity": 0.25, "animIn": "blend_in_out" },
+      { "pool": "wire", "absStart": 236.0, "duration": 6.8, "z": 82, "blend": "multiply", "opacity": 0.25, "animIn": "blend_in_out" },
+
+      { "pool": "lines", "absStart": 52.4, "duration": 0.9, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 62.8, "duration": 0.7, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 74.2, "duration": 1.0, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 86.6, "duration": 0.8, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 98.9, "duration": 0.9, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 128.6, "duration": 0.9, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 146.3, "duration": 0.8, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 163.7, "duration": 0.9, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 181.2, "duration": 0.7, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 197.4, "duration": 0.9, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 216.5, "duration": 0.7, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 228.9, "duration": 1.0, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 266.9, "duration": 0.9, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 274.6, "duration": 0.7, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 283.4, "duration": 1.0, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 292.1, "duration": 0.8, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 300.7, "duration": 0.9, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+      { "pool": "lines", "absStart": 309.4, "duration": 0.7, "z": 88, "blend": "multiply", "opacity": 0.3, "animIn": "pop_in_out" },
+
+      { "pool": "ash", "absStart": 265.3, "duration": 5.5, "z": 83, "blend": "screen", "opacity": 0.3, "animIn": "blend_in_out" },
+      { "pool": "ash", "absStart": 274.2, "duration": 5.5, "z": 83, "blend": "screen", "opacity": 0.3, "animIn": "blend_in_out" },
+      { "pool": "ash", "absStart": 283.1, "duration": 5.5, "z": 83, "blend": "screen", "opacity": 0.3, "animIn": "blend_in_out" },
+      { "pool": "ash", "absStart": 292.0, "duration": 5.5, "z": 83, "blend": "screen", "opacity": 0.3, "animIn": "blend_in_out" },
+      { "pool": "ash", "absStart": 300.9, "duration": 5.5, "z": 83, "blend": "screen", "opacity": 0.3, "animIn": "blend_in_out" },
+      { "pool": "ash", "absStart": 309.5, "duration": 5.5, "z": 83, "blend": "screen", "opacity": 0.3, "animIn": "blend_in_out" },
+
+      { "pool": "angel_11", "absStart": 62.0, "duration": 5.0, "z": 86, "blend": "screen", "opacity": 0.45, "animIn": "blend_in_out" },
+      { "pool": "angel_21", "absStart": 180.0, "duration": 5.0, "z": 86, "blend": "screen", "opacity": 0.45, "animIn": "blend_in_out" },
+
+      { "pool": "fractures", "absStart": 92.4, "duration": 0.45, "z": 90, "blend": "screen", "opacity": 0.5, "animIn": "pop_in_out" },
+      { "pool": "fractures", "absStart": 101.7, "duration": 0.45, "z": 90, "blend": "screen", "opacity": 0.5, "animIn": "pop_in_out" },
+      { "pool": "fractures", "absStart": 118.3, "duration": 0.45, "z": 90, "blend": "screen", "opacity": 0.5, "animIn": "pop_in_out" },
+      { "pool": "fractures", "absStart": 127.5, "duration": 0.45, "z": 90, "blend": "screen", "opacity": 0.5, "animIn": "pop_in_out" },
+
+      { "pool": "cracks", "absStart": 274.5, "duration": 0.9, "z": 90, "blend": "screen", "opacity": 0.5, "animIn": "pop_in_out" },
+      { "pool": "cracks", "absStart": 281.2, "duration": 0.9, "z": 90, "blend": "screen", "opacity": 0.5, "animIn": "pop_in_out" },
+      { "pool": "cracks", "absStart": 288.4, "duration": 0.9, "z": 90, "blend": "screen", "opacity": 0.5, "animIn": "pop_in_out" },
+      { "pool": "cracks", "absStart": 293.0, "duration": 0.9, "z": 90, "blend": "screen", "opacity": 0.5, "animIn": "pop_in_out" }
+    ]
+  },
+  "debugMode": {
+    "enabled": false,
+    "logPasses": false
+  },
+  "assetPools": {
+    "scene_001": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 3,
+      "path": "media/Scenes/001_Intro",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter", "slow_pan_left"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_002": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 4,
+      "path": "media/Scenes",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter", "slow_pan_right"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_003": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 5,
+      "path": "media/Scenes/003_Drop_1",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "cinematic_zoom_in_shake"],
+      "defaultAppearance": "glitch_snap"
+    },
+    "scene_004": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 6,
+      "path": "media/Scenes/004_Male_Verse_2",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter", "slow_pan_left"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_005": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 7,
+      "path": "media/Scenes/005_Female_Verse_1",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter", "slow_pan_right"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_006": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 8,
+      "path": "media/Scenes/006_Female_Verse_2",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter", "subtle_zoom"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_007": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 9,
+      "path": "media/Scenes/007_Pre-Chorus",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter", "slow_pan_left"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_008": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 10,
+      "path": "media/Scenes/008_Chorus",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["cinematic_zoom_in_shake", "slow_zoom_jitter", "micro_jitter"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_009": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 11,
+      "path": "media/Scenes/009_Female_Verse_3",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter", "slow_pan_right"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_010": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 12,
+      "path": "media/Scenes/010_Female_Verse_4",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "subtle_zoom"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_011": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 13,
+      "path": "media/Scenes/011_Male_Verse 3",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "micro_jitter", "slow_pan_left"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_012": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 14,
+      "path": "media/Scenes/012_Outro",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "subtle_zoom"],
+      "defaultAppearance": "soft_fade"
+    },
+    "scene_013": {
+      "enabled": true,
+      "class": "narrative",
+      "layerIndex": 15,
+      "path": "media/Scenes/013_Fade_Out",
+      "blendMode": "multiply",
+      "baseOpacity": 1.0,
+      "allowedMovements": ["slow_zoom_jitter", "subtle_zoom"],
+      "defaultAppearance": "soft_fade"
+    },
+    "atmos_sepia_hairs": {
+      "enabled": false,
+      "class": "atmosphere",
+      "persistent": true,
+      "layerIndex": 81,
+      "path": "media/sfx/Retro_film_hairs",
+      "blendMode": "multiply",
+      "baseOpacity": 0.22,
+      "opacity": 0.22,
+      "motion": "none",
+      "animIn": "fade_in_base",
+      "animOut": "hard_cut",
+      "loop": true
+    },
+    "atmos_sepia_dust": {
+      "enabled": true,
+      "class": "atmosphere",
+      "persistent": true,
+      "layerIndex": 85,
+      "path": "media/sfx/Light-Dust",
+      "blendMode": "screen",
+      "baseOpacity": 0.08,
+      "opacity": 0.08,
+      "motion": "none",
+      "animIn": "fade_in_base",
+      "animOut": "hard_cut",
+      "loop": true
+    },
+    "atmos_sepia_lines": {
+      "enabled": false,
+      "class": "atmosphere",
+      "persistent": true,
+      "layerIndex": 86,
+      "path": "media/sfx/vert-lines",
+      "blendMode": "multiply",
+      "baseOpacity": 0.2,
+      "opacity": 0.2,
+      "motion": "none",
+      "animIn": "fade_in_base",
+      "animOut": "hard_cut",
+      "loop": true
+    },
+    "atmos_blue_wire": {
+      "enabled": true,
+      "class": "transition",
+      "layerIndex": 82,
+      "path": "media/sfx/Barbed-Wire",
+      "blendMode": "multiply",
+      "baseOpacity": 0.2,
+      "opacity": 0.2,
+      "motion": "none",
+      "animIn": "blend_in_out",
+      "animOut": "none",
+      "loop": false
+    },
+    "atmos_blue_ash": {
+      "enabled": false,
+      "class": "atmosphere",
+      "persistent": true,
+      "layerIndex": 87,
+      "path": "media/sfx/Black-Ash",
+      "blendMode": "screen",
+      "baseOpacity": 0.3,
+      "opacity": 0.3,
+      "motion": "none",
+      "animIn": "fade_in_base",
+      "animOut": "hard_cut",
+      "loop": true
+    },
+    "atmos_mono_ash": {
+      "enabled": true,
+      "class": "transition",
+      "layerIndex": 83,
+      "path": ["media/sfx/Ash", "media/sfx/Black-Ash"],
+      "blendMode": "screen",
+      "baseOpacity": 0.22,
+      "opacity": 0.22,
+      "motion": "none",
+      "animIn": "blend_in_out",
+      "animOut": "none",
+      "loop": false
+    },
+    "atmos_mono_lines": {
+      "enabled": true,
+      "class": "transition",
+      "layerIndex": 88,
+      "path": "media/sfx/vert-lines",
+      "blendMode": "multiply",
+      "baseOpacity": 0.26,
+      "opacity": 0.26,
+      "motion": "none",
+      "animIn": "blend_in_out",
+      "animOut": "none",
+      "loop": false
+    },
+    "atmos_color_fireflies": {
+      "enabled": true,
+      "class": "atmosphere",
+      "persistent": true,
+      "layerIndex": 84,
+      "path": "media/sfx/Vertical-fireflies",
+      "blendMode": "screen",
+      "baseOpacity": 0.3,
+      "opacity": 0.3,
+      "motion": "none",
+      "animIn": "fade_in_base",
+      "animOut": "hard_cut",
+      "loop": true
+    },
+    "fx_storm_transition": {
+      "enabled": true,
+      "class": "transition",
+      "layerIndex": 90,
+      "path": "media/sfx/transition",
+      "blendMode": "multiply",
+      "baseOpacity": 0.85,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "fade_in_base"
+    },
+    "fx_scribble_flash": {
+      "enabled": true,
+      "class": "flash",
+      "layerIndex": 91,
+      "path": "media/sfx/flash",
+      "blendMode": "multiply",
+      "baseOpacity": 0.35,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "fade_in_base"
+    },
+    "fx_dust_loop": {
+      "enabled": true,
+      "class": "transition",
+      "layerIndex": 92,
+      "path": "media/sfx/dust",
+      "blendMode": "multiply",
+      "baseOpacity": 0.18,
+      "allowedMovements": ["none"],
+      "defaultAppearance": "fade_in_base"
+    },
+    "fx_angel_11": { "enabled": true, "class": "transition", "layerIndex": 86, "path": "media/sfx/Sky-angel-11", "blendMode": "screen", "baseOpacity": 1, "allowedMovements": ["none"], "defaultAppearance": "blend_in_out" },
+    "fx_angel_21": { "enabled": true, "class": "transition", "layerIndex": 86, "path": "media/sfx/Sky-angel-21", "blendMode": "screen", "baseOpacity": 1, "allowedMovements": ["none"], "defaultAppearance": "blend_in_out" },
+    "fx_cracks": { "enabled": true, "class": "transition", "layerIndex": 90, "path": "media/sfx/Vertical-cracks", "blendMode": "screen", "baseOpacity": 1, "allowedMovements": ["none"], "defaultAppearance": "pop_in_out" },
+    "fx_fractures": { "enabled": true, "class": "transition", "layerIndex": 91, "path": "media/sfx/Vertical-fractures", "blendMode": "screen", "baseOpacity": 1, "allowedMovements": ["none"], "defaultAppearance": "pop_in_out" }
+  }
+}
